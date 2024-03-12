@@ -1,0 +1,4 @@
+.mypy_cache
+*.db
+*.sqbpro
+__pycache__
