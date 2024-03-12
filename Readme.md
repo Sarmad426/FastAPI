@@ -98,7 +98,7 @@ def read_item(item_id: int, q: Union[str, None] = None):
 Run the server using Poetry:
 
 ```bash
-poetry run uvicorn main:app
+poetry run uvicorn main:app --reload
 ```
 
 ## Step 13: Open the URLs
