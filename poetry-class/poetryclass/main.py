@@ -1,15 +1,46 @@
-from typing import Union
+from typing import Optional
 
 from fastapi import FastAPI
+from sqlmodel import Field, Session, SQLModel, create_engine, select
+
+
+class Hero(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str = Field(index=True)
+    secret_name: str
+    age: Optional[int] = Field(default=None, index=True)
+
+
+sqlite_file_name = "database.db"
+sqlite_url = f"sqlite:///{sqlite_file_name}"
+
+connect_args = {"check_same_thread": False}
+engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
+
+
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
+
 
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"FastAPI": "Api with json data."}
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.post("/heroes/")
+def create_hero(hero: Hero):
+    with Session(engine) as session:
+        session.add(hero)
+        session.commit()
+        session.refresh(hero)
+        return hero
+
+
+@app.get("/heroes/")
+def read_heroes():
+    with Session(engine) as session:
+        heroes = session.exec(select(Hero)).all()
+        return {"heroes": heroes}
