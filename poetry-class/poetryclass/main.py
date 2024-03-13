@@ -11,7 +11,7 @@ class Hero(SQLModel, table=True):
     age: Optional[int] = Field(default=None, index=True)
 
 
-sqlite_file_name = "database.db"
+sqlite_file_name = "heroes.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 connect_args = {"check_same_thread": False}
@@ -39,7 +39,7 @@ def create_hero(hero: Hero):
         return hero
 
 
-@app.get("/heroes/")
+@app.get("/")
 def read_heroes():
     with Session(engine) as session:
         heroes = session.exec(select(Hero)).all()
