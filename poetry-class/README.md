@@ -4,6 +4,12 @@
 
 > First setup the project by following this guide. [Click here](../Readme.md)
 
+Add `SQLModel` to the project
+
+```bash
+poetry add sqlmodel
+```
+
 ```python
 from typing import Optional
 
