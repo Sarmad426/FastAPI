@@ -10,6 +10,8 @@ Add `SQLModel` to the project
 poetry add sqlmodel
 ```
 
+Paste this code in the `main.py` file.
+
 ```python
 from typing import Optional
 
@@ -58,8 +60,6 @@ def read_heroes():
         heroes = session.exec(select(Hero)).all()
         return {"heroes": heroes}
 ```
-
-Paste this code in the `main.py` file.
 
 Run the following command
 
