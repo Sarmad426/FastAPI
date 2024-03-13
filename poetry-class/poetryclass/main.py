@@ -1,7 +1,11 @@
 from typing import Optional
 
-from fastapi import FastAPI
+
+from fastapi import FastAPI, Request
 from sqlmodel import Field, Session, SQLModel, create_engine, select
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 
 class Hero(SQLModel, table=True):
@@ -24,6 +28,11 @@ def create_db_and_tables():
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+templates = Jinja2Templates(directory="templates")
+
 
 @app.on_event("startup")
 def on_startup():
@@ -44,3 +53,8 @@ def read_heroes():
     with Session(engine) as session:
         heroes = session.exec(select(Hero)).all()
         return {"heroes": heroes}
+
+
+@app.get("/heroes/", response_class=HTMLResponse)
+async def read_item(request: Request):
+    return templates.TemplateResponse(request=request, name="index.html")
