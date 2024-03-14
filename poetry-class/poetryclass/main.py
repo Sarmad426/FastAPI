@@ -1,7 +1,7 @@
 from typing import Optional
 
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -39,13 +39,24 @@ def on_startup():
     create_db_and_tables()
 
 
-@app.post("/heroes/")
-def create_hero(hero: Hero):
+@app.post("/heroes", response_class=HTMLResponse)
+async def submit_form(
+    request: Request,
+    name: str = Form(...),
+    secret_name: str = Form(...),
+    age: int = Form(...),
+):
+    # Create a new Hero instance
     with Session(engine) as session:
+        hero = Hero(name=name, secret_name=secret_name, age=age)
+
+        # Add the hero to the database
         session.add(hero)
         session.commit()
         session.refresh(hero)
-        return hero
+        return templates.TemplateResponse(
+            "success.html", {"request": request, "name": name}
+        )
 
 
 @app.get("/")
@@ -57,4 +68,8 @@ def read_heroes():
 
 @app.get("/heroes/", response_class=HTMLResponse)
 async def read_item(request: Request):
-    return templates.TemplateResponse(request=request, name="index.html")
+    with Session(engine) as session:
+        heroes = session.exec(select(Hero)).all()
+        return templates.TemplateResponse(
+            request=request, name="index.html", context={"heroes": heroes}
+        )
