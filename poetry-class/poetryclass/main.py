@@ -73,3 +73,13 @@ async def read_item(request: Request):
         return templates.TemplateResponse(
             request=request, name="index.html", context={"heroes": heroes}
         )
+
+
+@app.delete("/delete/{hero_id}")
+async def delete_hero(hero_id: int):
+    with Session(engine) as session:
+        hero = Hero(id=hero_id)
+
+        # Add the hero to the database
+        session.delete(hero)
+    return {"message": f"Hero with ID {hero_id} deleted successfully"}

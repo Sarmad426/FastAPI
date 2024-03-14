@@ -28,10 +28,13 @@
     <div>
       <h3>Heroes</h3>
       {% for hero in heroes %}
-      <p>
-        {{hero['name']}} &rightarrow; {{hero['secret_name'].upper()}}
-        &UpTeeArrow; {{hero['age']}}
-      </p>
+      <li>
+        {{ hero.name }} &rightarrow; {{ hero.secret_name.upper() }} |
+        {{hero.age}}
+        <form action="/delete/{{ hero.id }}" method="post">
+          <button type="submit" class="delete-btn">Delete</button>
+        </form>
+      </li>
       {% endfor %}
     </div>
   </body>
