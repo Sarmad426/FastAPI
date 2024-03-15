@@ -39,7 +39,7 @@ def on_startup():
     create_db_and_tables()
 
 
-@app.post("/heroes", response_class=HTMLResponse)
+@app.post("/heroes/", response_class=HTMLResponse)
 async def submit_form(
     request: Request,
     name: str = Form(...),
@@ -66,7 +66,7 @@ def read_heroes():
         return {"heroes": heroes}
 
 
-@app.get("/heroes/", response_class=HTMLResponse)
+@app.get("/heroes", response_class=HTMLResponse)
 async def read_item(request: Request):
     with Session(engine) as session:
         heroes = session.exec(select(Hero)).all()
@@ -75,11 +75,20 @@ async def read_item(request: Request):
         )
 
 
-@app.delete("/delete/{hero_id}")
+@app.post("/delete/{hero_id}")
 async def delete_hero(hero_id: int):
+    """
+    Deletes the hero with the specified ID from the database.
+    Assumes you have a database session (e.g., SQLAlchemy session) set up.
+    """
     with Session(engine) as session:
-        hero = Hero(id=hero_id)
+        # Retrieve the hero by ID
+        hero: Hero = session.query(Hero).filter_by(id=hero_id).first()
 
-        # Add the hero to the database
-        session.delete(hero)
-    return {"message": f"Hero with ID {hero_id} deleted successfully"}
+        if hero:
+            # Delete the hero from the database
+            session.delete(hero)
+            session.commit()
+            return {"message": f"Hero with ID {hero_id} deleted successfully"}
+        else:
+            return {"message": f"Hero with ID {hero_id} not found"}
