@@ -9,7 +9,7 @@
   <body>
     <div class="flex items-center justify-center">
       <h2>Heroes</h2>
-      <form method="post" action="/heroes/">
+      <form method="post" action="/todos/">
         <label for="heroName">Hero Name:</label>
         <input type="text" id="heroName" name="name" required />
         <label for="nickname">Nickname (Max 3 letters):</label>
@@ -27,11 +27,10 @@
     </div>
     <div>
       <h3>Heroes</h3>
-      {% for hero in heroes %}
+      {% for todo in todos %}
       <li>
-        {{ hero.name }} &rightarrow; {{ hero.secret_name.upper() }} |
-        {{hero.age}}
-        <form action="/delete/{{ hero.id }}" method="post">
+        {{ hero['title'] }} &rightarrow; {{ hero['completed'] }}
+        <form action="/delete/{{ todo.id }}" method="post">
           <button type="submit" class="delete-btn">Delete</button>
         </form>
       </li>
