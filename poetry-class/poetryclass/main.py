@@ -6,16 +6,23 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 
 
-class Hero(SQLModel, table=True):
+class Todo(SQLModel, table=True):
+    """
+    Todo Schema (SQLModel)
+    - id (int)
+    - title (string)
+    - completed (boolean)
+    """
+
     id: Optional[int] = Field(default=None, primary_key=True)
-    name: str = Field(index=True)
-    secret_name: str
-    age: Optional[int] = Field(default=None, index=True)
+    title: str = Field(index=True)
+    completed: bool = False
 
 
-sqlite_file_name = "heroes.db"
+sqlite_file_name = "todos.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 connect_args = {"check_same_thread": False}
@@ -28,6 +35,9 @@ def create_db_and_tables():
 
 app = FastAPI()
 
+
+app.add_middleware(CORSMiddleware, allow_origins=["*"])
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
@@ -39,56 +49,55 @@ def on_startup():
     create_db_and_tables()
 
 
-@app.post("/heroes/", response_class=HTMLResponse)
+@app.post("/todos/", response_class=HTMLResponse)
 async def submit_form(
     request: Request,
-    name: str = Form(...),
-    secret_name: str = Form(...),
-    age: int = Form(...),
+    title: str = Form(...),
+    completed: bool = Form(...),
 ):
-    # Create a new Hero instance
+    # Create a new Todo instance
     with Session(engine) as session:
-        hero = Hero(name=name, secret_name=secret_name, age=age)
+        todo = Todo(title=title, completed=completed)
 
-        # Add the hero to the database
-        session.add(hero)
+        # Add the todo to the database
+        session.add(todo)
         session.commit()
-        session.refresh(hero)
+        session.refresh(todo)
         return templates.TemplateResponse(
-            "success.html", {"request": request, "name": name}
+            "success.html", {"request": request, "title": title}
         )
 
 
 @app.get("/")
-def read_heroes():
+async def read_todos():
     with Session(engine) as session:
-        heroes = session.exec(select(Hero)).all()
-        return {"heroes": heroes}
+        todos = session.exec(select(Todo)).all()
+        return {"todos": todos}
 
 
-@app.get("/heroes", response_class=HTMLResponse)
+@app.get("/todos")
 async def read_item(request: Request):
     with Session(engine) as session:
-        heroes = session.exec(select(Hero)).all()
+        todos = session.exec(select(Todo)).all()
         return templates.TemplateResponse(
-            request=request, name="index.html", context={"heroes": heroes}
+            request=request, name="index.html", context={"todos": todos}
         )
 
 
-@app.post("/delete/{hero_id}")
-async def delete_hero(hero_id: int):
+@app.post("/delete/{todo_id}")
+async def delete_todo(todo_id: int):
     """
-    Deletes the hero with the specified ID from the database.
+    Deletes the todo with the specified ID from the database.
     Assumes you have a database session (e.g., SQLAlchemy session) set up.
     """
     with Session(engine) as session:
-        # Retrieve the hero by ID
-        hero: Hero = session.query(Hero).filter_by(id=hero_id).first()
+        # Retrieve the todo by ID
+        todo: Todo = session.query(Todo).filter_by(id=todo_id).first()
 
-        if hero:
-            # Delete the hero from the database
-            session.delete(hero)
+        if todo:
+            # Delete the todo from the database
+            session.delete(todo)
             session.commit()
-            return {"message": f"Hero with ID {hero_id} deleted successfully"}
+            return {"message": f"Todo with ID {todo_id} deleted successfully"}
         else:
-            return {"message": f"Hero with ID {hero_id} not found"}
+            return {"message": f"Todo with ID {todo_id} not found"}
