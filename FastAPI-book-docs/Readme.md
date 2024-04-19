@@ -70,3 +70,31 @@ Response types (import these classes from fastapi.responses) include the followi
 - RedirectResponse
 - FileResponse
 - StreamingResponse
+
+## Python `async/await`
+
+```python
+import asyncio
+
+async def start():
+    """
+    Start the program
+    """
+    print("Starting")
+    await asyncio.sleep(3)
+    print("Terminated. ")
+
+async def running():
+    """
+    Executing the program
+    """
+    print("Running: ")
+
+async def main():
+    """
+    main function
+    """
+    await asyncio.gather(start(),running())
+
+asyncio.run(main())
+```
