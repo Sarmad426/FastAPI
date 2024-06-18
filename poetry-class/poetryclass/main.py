@@ -3,9 +3,6 @@ from typing import Optional
 
 from fastapi import FastAPI, Request, Form
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -38,10 +35,7 @@ app = FastAPI()
 
 app.add_middleware(CORSMiddleware, allow_origins=["*"])
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
-templates = Jinja2Templates(directory="templates")
 
 
 @app.on_event("startup")
@@ -49,7 +43,7 @@ def on_startup():
     create_db_and_tables()
 
 
-@app.post("/todos/", response_class=HTMLResponse)
+@app.post("/todos/")
 async def submit_form(
     request: Request,
     title: str = Form(...),
@@ -63,9 +57,7 @@ async def submit_form(
         session.add(todo)
         session.commit()
         session.refresh(todo)
-        return templates.TemplateResponse(
-            "success.html", {"request": request, "title": title}
-        )
+        return todo
 
 
 @app.get("/")
@@ -79,9 +71,7 @@ async def read_todos():
 async def read_item(request: Request):
     with Session(engine) as session:
         todos = session.exec(select(Todo)).all()
-        return templates.TemplateResponse(
-            request=request, name="index.html", context={"todos": todos}
-        )
+        return todos
 
 
 @app.post("/delete/{todo_id}")
