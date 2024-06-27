@@ -40,7 +40,7 @@ def get_todos(session: Annotated[Session, Depends(get_session)]):
 
 @app.post("/new/todo")
 def create_todo(
-    session: Annotated[Session, Depends(get_session)], title: str, completed: bool
+    session: Annotated[Session, Depends(get_session)], new_todo:Todo
 ):
     """
     Creates a new todo
@@ -49,7 +49,7 @@ def create_todo(
     :title (str)
     :completed (bool)
     """
-    todo = Todo(title=title, completed=completed)
+    todo = Todo(title=new_todo.title, completed=new_todo.completed)
     session.add(todo)
     session.commit()
     session.refresh(todo)
@@ -63,37 +63,40 @@ def get_todo_by_id(session: Annotated[Session, Depends(get_session)], id: int):
     """
     todo = session.exec(select(Todo).where(Todo.id == id)).first()
     if not todo:
-        return HTTPException(status_code=404, detail=f"Todo not found with id {id}")
+        raise HTTPException(status_code=404, detail=f"Todo not found with id {id}")
     return todo
 
 
 @app.patch("/edit/todo/{id}")
 def edit_todo(
-    session: Annotated[Session, Depends(get_session)],
     id: int,
-    title: str,
-    completed: bool,
+    todo: Todo,
+    session: Annotated[Session, Depends(get_session)]
 ):
     """
     Edit and return the todo
     """
-    todo = session.exec(select(Todo).where(Todo.id == id)).first()
-    if not todo:
-        return HTTPException(status_code=404, detail=f"Todo not found with id {id}")
-    todo.title = title
-    todo.completed = completed
+    existing_todo = session.exec(select(Todo).where(Todo.id == id)).first()
+    if not existing_todo:
+        raise HTTPException(status_code=404, detail=f"Todo not found with id {id}")
+
+    existing_todo.title = todo.title
+    existing_todo.completed = todo.completed
+    session.add(existing_todo)
     session.commit()
-    return todo
+    session.refresh(existing_todo)
+    
+    return existing_todo
 
 
-@app.post("/delete/todo")
+@app.delete("/delete/todo/{id}")
 def delete_todo(session: Annotated[Session, Depends(get_session)], id: int):
     """
     Deletes todo by id
     """
     todo = session.exec(select(Todo).where(Todo.id == id)).first()
     if not todo:
-        return HTTPException(status_code=404, detail=f"Todo not found with id {id}")
+        raise HTTPException(status_code=404, detail=f"Todo not found with id {id}")
     session.delete(todo)
     session.commit()
     return todo

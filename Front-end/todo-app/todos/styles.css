@@ -160,12 +160,12 @@ main {
   background-color: #e83c3c;
 }
 
-.cancel-btn {
+.cancel-btn, .save-button {
   background-color: #4caf50;
   color: white;
 }
 
-.cancel-btn:hover {
+.cancel-btn:hover, .save-button:hover {
   background-color: #3fc143;
 }
 

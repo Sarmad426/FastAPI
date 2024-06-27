@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     fetch(`http://127.0.0.1:8000/edit/todo/${todoIdToEdit}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },

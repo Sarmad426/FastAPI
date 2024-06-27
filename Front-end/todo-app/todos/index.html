@@ -38,7 +38,8 @@
         <h2>Edit Todo</h2>
         <form id="edit-form">
           <label for="edit-title">Title:</label>
-          <input type="text" id="edit-title" name="title" required />
+          <input type="text" id="edit-title" class="edit-title-input" name="title" required />
+          <br> <br>
           <label for="edit-completed">Completed:</label>
           <input
             type="radio"
@@ -46,15 +47,20 @@
             name="completed"
             value="true"
           />
-          Yes
+          <label for="edit-completed-yes">
+            Yes
+          </label>
           <input
             type="radio"
             id="edit-completed-no"
             name="completed"
             value="false"
           />
-          No
-          <button type="submit" class="btn">Save</button>
+          <label for="edit-completed-no">
+            No
+          </label>
+          <br> <br>
+          <button type="submit" class="btn modal-btn save-button">Save</button>
         </form>
       </div>
     </div>
