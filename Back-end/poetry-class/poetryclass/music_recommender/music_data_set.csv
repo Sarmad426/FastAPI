@@ -1,0 +1,29 @@
+age,gender,genre
+18,1,Pop
+20,0,Rock
+22,1,Electronic
+25,0,Indie
+28,1,Hip Hop
+30,0,Classical
+40,1,Pop
+45,0,Rock
+50,1,Electronic
+55,0,Indie
+60,1,Hip Hop
+22,0,Pop
+25,1,Rock
+28,0,Electronic
+30,1,Indie
+40,0,Classical
+45,1,Pop
+50,0,Rock
+55,1,Electronic
+60,0,Indie
+20,1,Hip Hop
+22,0,Classical
+28,1,Pop
+30,0,Rock
+40,1,Indie
+45,0,Hip Hop
+55,1,Alternative
+60,0,Pop
