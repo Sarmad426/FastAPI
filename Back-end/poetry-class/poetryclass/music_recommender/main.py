@@ -28,7 +28,7 @@ X = music_data.drop(columns=["genre"])
 y = music_data["genre"]
 
 model = DecisionTreeClassifier()
-model.fit(X, y)
+model.fit(X.values, y)
 
 prediction = model.predict([[21, 1], [22, 0]])
 
