@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Todo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+            <h1>Todo App</h1>
+            <a href="../todos/index.html" class="btn">Home</a>
+        </div>
+    </nav>
+    <main>
+        <div class="form-container">
+            <h2>Add New Todo</h2>
+            <form id="todo-form">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="completed">Completed:</label>
+                <select id="completed" name="completed" required>
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                </select>
+
+                <button type="submit" class="btn">Add Todo</button>
+            </form>
+        </div>
+    </main>
+
+    <div class="popup" id="popup"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
