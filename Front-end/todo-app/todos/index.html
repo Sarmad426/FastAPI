@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="navbar">
+        <h1>Todo App</h1>
+        <a href="add_todo.html" class="btn">Add New Todo</a>
+      </div>
+    </nav>
+    <main>
+      <div class="todo-container" id="todo-container"></div>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-modal">
+      <div class="modal-content">
+        <span class="close" id="delete-close">&times;</span>
+        <p>Are you sure you want to delete this todo?</p>
+        <button class="btn modal-btn delete-btn" id="confirm-delete">
+          Delete
+        </button>
+        <button class="btn modal-btn cancel-btn" id="cancel-delete">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Edit Todo Modal -->
+    <div class="modal" id="edit-modal">
+      <div class="modal-content">
+        <span class="close" id="edit-close">&times;</span>
+        <h2>Edit Todo</h2>
+        <form id="edit-form">
+          <label for="edit-title">Title:</label>
+          <input type="text" id="edit-title" name="title" required />
+          <label for="edit-completed">Completed:</label>
+          <input
+            type="radio"
+            id="edit-completed-yes"
+            name="completed"
+            value="true"
+          />
+          Yes
+          <input
+            type="radio"
+            id="edit-completed-no"
+            name="completed"
+            value="false"
+          />
+          No
+          <button type="submit" class="btn">Save</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
