@@ -1,0 +1,77 @@
+[
+    {
+        "question": "What does HTML stand for?",
+        "options": ["Hyper Text Markup Language", "High Text Markup Language", "Hyper Tabular Markup Language", "None of these"],
+        "correct_option": 0
+    },
+    {
+        "question": "Who is making the Web standards?",
+        "options": ["Mozilla", "Microsoft", "Google", "The World Wide Web Consortium"],
+        "correct_option": 3
+    },
+    {
+        "question": "Choose the correct HTML element for the largest heading:",
+        "options": ["<heading>", "<h1>", "<h6>", "<head>"],
+        "correct_option": 1
+    },
+    {
+        "question": "What is the correct HTML element for inserting a line break?",
+        "options": ["<break>", "<br>", "<lb>", "<linebreak>"],
+        "correct_option": 1
+    },
+    {
+        "question": "What is the correct HTML for adding a background color?",
+        "options": ["<body bg='yellow'>", "<background>yellow</background>", "<body style='background-color:yellow;'>", "<bg>yellow</bg>"],
+        "correct_option": 2
+    },
+    {
+        "question": "Choose the correct HTML element to define emphasized text:",
+        "options": ["<i>", "<italic>", "<em>", "<strong>"],
+        "correct_option": 2
+    },
+    {
+        "question": "Which character is used to indicate an end tag?",
+        "options": ["^", "<", "*", "/"],
+        "correct_option": 3
+    },
+    {
+        "question": "How can you make a numbered list?",
+        "options": ["<dl>", "<ol>", "<list>", "<ul>"],
+        "correct_option": 1
+    },
+    {
+        "question": "How can you make a bulleted list?",
+        "options": ["<ol>", "<dl>", "<list>", "<ul>"],
+        "correct_option": 3
+    },
+    {
+        "question": "What is the correct HTML for creating a hyperlink?",
+        "options": ["<a>http://www.example.com</a>", "<a name='http://www.example.com'>Example</a>", "<a href='http://www.example.com'>Example</a>", "<a url='http://www.example.com'>Example</a>"],
+        "correct_option": 2
+    },
+    {
+        "question": "Which of these elements are all <table> elements?",
+        "options": ["<table><tr><tt>", "<table><head><tfoot>", "<table><tr><td>", "<thead><body><tr>"],
+        "correct_option": 2
+    },
+    {
+        "question": "How can you make an image clickable?",
+        "options": ["<a href='url'><img src='image.jpg'></a>", "<img href='url' src='image.jpg'>", "<a src='image.jpg'>"],
+        "correct_option": 0
+    },
+    {
+        "question": "Which HTML element is used to specify a footer for a document or section?",
+        "options": ["<bottom>", "<footer>", "<section>", "<footersection>"],
+        "correct_option": 1
+    },
+    {
+        "question": "In HTML, onblur and onfocus are:",
+        "options": ["HTML elements", "Style attributes", "Event attributes", "None of the above"],
+        "correct_option": 2
+    },
+    {
+        "question": "What is the correct HTML for inserting an image?",
+        "options": ["<image src='image.jpg' alt='Image'>", "<img src='image.jpg' alt='Image'>", "<img alt='image.jpg'>", "<img href='image.jpg' alt='Image'>"],
+        "correct_option": 1
+    }
+]
