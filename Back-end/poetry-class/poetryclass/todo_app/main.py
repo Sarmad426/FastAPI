@@ -8,8 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from typing import Annotated
 
-from database import engine, get_session
-from schema import Todo
+from poetryclass.todo_app.database import engine, get_session
+from poetryclass.todo_app.schema import Todo
+
 
 app = FastAPI()
 
@@ -39,9 +40,7 @@ def get_todos(session: Annotated[Session, Depends(get_session)]):
 
 
 @app.post("/new/todo")
-def create_todo(
-    session: Annotated[Session, Depends(get_session)], new_todo:Todo
-):
+def create_todo(session: Annotated[Session, Depends(get_session)], new_todo: Todo):
     """
     Creates a new todo
 
@@ -68,11 +67,7 @@ def get_todo_by_id(session: Annotated[Session, Depends(get_session)], id: int):
 
 
 @app.patch("/edit/todo/{id}")
-def edit_todo(
-    id: int,
-    todo: Todo,
-    session: Annotated[Session, Depends(get_session)]
-):
+def edit_todo(id: int, todo: Todo, session: Annotated[Session, Depends(get_session)]):
     """
     Edit and return the todo
     """
@@ -85,7 +80,7 @@ def edit_todo(
     session.add(existing_todo)
     session.commit()
     session.refresh(existing_todo)
-    
+
     return existing_todo
 
 
