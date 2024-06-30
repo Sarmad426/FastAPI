@@ -4,7 +4,6 @@ FastAPI todo app schemas
 
 from sqlmodel import SQLModel, Field
 from typing import Optional
-from database import engine
 
 
 class Todo(SQLModel, table=True):
