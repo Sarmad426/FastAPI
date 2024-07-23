@@ -5,3 +5,4 @@ __pycache__
 practice.py
 practice
 node_modules
+.env

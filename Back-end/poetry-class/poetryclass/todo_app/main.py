@@ -8,8 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from typing import Annotated
 
-from todo_app import database
-from todo_app import schema
+from database import engine, get_session
+from schema import Todo
 
 
 app = FastAPI()
@@ -27,21 +27,21 @@ app.add_middleware(
 @app.on_event("startup")
 def create_db_and_tables():
     """Create database and tables on startup"""
-    SQLModel.metadata.create_all(database.engine)
+    SQLModel.metadata.create_all(engine)
 
 
 @app.get("/")
-def get_todos(session: Annotated[Session, Depends(database.get_session)]):
+def get_todos(session: Annotated[Session, Depends(get_session)]):
     """
     Returns all the todos
     """
-    todos = session.exec(select(schema.Todo)).all()
+    todos = session.exec(select(Todo)).all()
     return todos
 
 
 @app.post("/new/todo")
 def create_todo(
-    session: Annotated[Session, Depends(database.get_session)], new_todo: schema.Todo
+    session: Annotated[Session, Depends(get_session)], new_todo: Todo
 ):
     """
     Creates a new todo
@@ -50,7 +50,7 @@ def create_todo(
     :title (str)
     :completed (bool)
     """
-    todo = schema.Todo(title=new_todo.title, completed=new_todo.completed)
+    todo = Todo(title=new_todo.title, completed=new_todo.completed)
     session.add(todo)
     session.commit()
     session.refresh(todo)
@@ -58,11 +58,11 @@ def create_todo(
 
 
 @app.get("/todo/{id}")
-def get_todo_by_id(session: Annotated[Session, Depends(database.get_session)], id: int):
+def get_todo_by_id(session: Annotated[Session, Depends(get_session)], id: int):
     """
     Return the todo which matches against the id
     """
-    todo = session.exec(select(schema.Todo).where(schema.Todo.id == id)).first()
+    todo = session.exec(select(Todo).where(Todo.id == id)).first()
     if not todo:
         raise HTTPException(status_code=404, detail=f"Todo not found with id {id}")
     return todo
@@ -71,14 +71,14 @@ def get_todo_by_id(session: Annotated[Session, Depends(database.get_session)], i
 @app.patch("/edit/todo/{id}")
 def edit_todo(
     id: int,
-    todo: schema.Todo,
-    session: Annotated[Session, Depends(database.get_session)],
+    todo: Todo,
+    session: Annotated[Session, Depends(get_session)],
 ):
     """
     Edit and return the todo
     """
     existing_todo = session.exec(
-        select(schema.Todo).where(schema.Todo.id == id)
+        select(Todo).where(Todo.id == id)
     ).first()
     if not existing_todo:
         raise HTTPException(status_code=404, detail=f"Todo not found with id {id}")
@@ -93,11 +93,11 @@ def edit_todo(
 
 
 @app.delete("/delete/todo/{id}")
-def delete_todo(session: Annotated[Session, Depends(database.get_session)], id: int):
+def delete_todo(session: Annotated[Session, Depends(get_session)], id: int):
     """
     Deletes todo by id
     """
-    todo = session.exec(select(schema.Todo).where(schema.Todo.id == id)).first()
+    todo = session.exec(select(Todo).where(Todo.id == id)).first()
     if not todo:
         raise HTTPException(status_code=404, detail=f"Todo not found with id {id}")
     session.delete(todo)
