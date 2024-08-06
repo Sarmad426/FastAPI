@@ -67,7 +67,7 @@ def create_new_todo(session:Annotated[Session,Depends(get_session)],todo:Todo) -
         session.commit()
         session.refresh(new_todo)
     except Exception as e:
-        # Undone partial changes if error happens
+        # Undo partial changes if error happens
         session.rollback()
         raise HTTPException(status_code=400, detail=str(e))
     
