@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
-app = FastAPI(title="Path and Query parameters")
+from enum import Enum
 
 FAKE_DATA = [
     {
@@ -24,6 +24,8 @@ FAKE_DATA = [
         'title':'The viper'
     }
 ]
+
+app = FastAPI(title="Path and Query parameters")
 
 
 # Path Parameters
@@ -52,6 +54,23 @@ def read_item_by_query(item_id:int = 1):
 # Type a url like that <http://127.0.0.1:8000/?item_id=4>
 
 # For multiple query parameters <http://127.0.0.1:8000/items/?skip=0&limit=10>
+
+# Path parameters example from the docs
+
+class ModelName(str,Enum):
+    alexnet = "alexnet"
+    resnet = "resnet"
+    lenet = "lenet"
+
+@app.get("/models/{model_name}")
+async def get_model(model_name: ModelName):
+    if model_name is ModelName.alexnet:
+        return {"model_name": model_name, "message": "Deep Learning FTW!"}
+
+    if model_name.value == "lenet":
+        return {"model_name": model_name, "message": "LeCNN all the images"}
+
+    return {"model_name": model_name, "message": "Have some residuals"}
 
 # Official docs: 
 # - <https://fastapi.tiangolo.com/tutorial/query-params/>
