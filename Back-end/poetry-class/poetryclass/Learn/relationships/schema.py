@@ -1,33 +1,52 @@
-"""
-User posts Database schema
-"""
+from sqlmodel import SQLModel, Field, Relationship
 
-from sqlmodel import SQLModel, Field, ForeignKey, Relationship
 
-class User(SQLModel,table=True):
-    """User model
-    Args:
-    -  id (int): primary key
-    -  name (str): user's name
-    -  email (str): user's email
-    """
-    id : int = Field(default=None,primary_key=True)
-    name : str = Field(index=True)
-    email : str = Field(index=True,unique=True)
-    post : list['Post'] = Relationship(back_populates="user")
+class TeamBase(SQLModel):
+    name: str = Field(index=True)
+    headquarters: str
 
-class Post(SQLModel,table=True):
-    """Post model
-    Args:
-    -  id (int): primary key
-    -  title (str): post's title
-    -  content (str): post's content
-    -  liked: bool = Post liked or not
-    -  user_id (int): foreign key referencing User.id
-    """
-    id : int = Field(default=None,primary_key=True)
-    title : str = Field()
-    content : str = Field()
-    liked : bool = Field(default=False)
-    user_id : int | None = Field(default=None, foreign_key='user.id')
-    user : User | None = Relationship(back_populates="post")
+
+class Team(TeamBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+
+    heroes: list["Hero"] = Relationship(back_populates="team")
+
+
+class TeamCreate(TeamBase):
+    pass
+
+
+class TeamPublic(TeamBase):
+    id: int
+
+
+class TeamUpdate(SQLModel):
+    name: str | None = None
+    headquarters: str | None = None
+
+class Hero(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    name: str = Field(index=True)
+    secret_name: str
+    age: int | None = Field(default=None, index=True)
+
+
+class HeroCreate(SQLModel):
+    name: str
+    secret_name: str
+    age: int | None = None
+
+
+class HeroPublic(SQLModel):
+    id: int
+    name: str
+    secret_name: str
+    age: int | None = None
+
+
+class HeroPublicWithTeam(HeroPublic):
+    team: TeamPublic | None = None
+
+
+class TeamPublicWithHeroes(TeamPublic):
+    heroes: list[HeroPublic] = []
