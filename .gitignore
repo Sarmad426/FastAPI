@@ -6,3 +6,8 @@ practice.py
 practice
 node_modules
 .env
+
+# Ignore sqlite files
+
+*.sqlite
+*.sqlite3

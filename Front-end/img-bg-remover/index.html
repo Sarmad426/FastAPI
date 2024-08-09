@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>✂️ rmbg</title>
+    <title>✂️ Image background remover</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Image Background Remover with one click"
+    />
     <style>
       body {
         height: 100vh;
@@ -9,6 +14,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
+        font-family: Inter, Cambria, sans-serif, Calibri, monospace, system-ui;
       }
 
       .drop-zone {
@@ -30,8 +36,8 @@
   </head>
   <body>
     <div id="dropZone" class="drop-zone">
-      <h1>rmbg</h1>
-      <input id="fileInput" type="file" name="file" style="display: none" />
+      <h1>Image Background Remover</h1>
+      <input id="fileInput" type="file" name="file" />
     </div>
 
     <script>
