@@ -260,6 +260,8 @@ def update_hero(hero_id: int, hero: HeroUpdate):
         return db_hero
 ```
 
+Docs: <https://sqlmodel.tiangolo.com/tutorial/fastapi/update-extra-data>
+
 ## Delete data
 
 ```py
@@ -274,4 +276,4 @@ def delete_hero(hero_id: int):
         return {"ok": True}
 ```
 
-Docs: <https://sqlmodel.tiangolo.com/tutorial/fastapi/update-extra-data>
+Docs:<https://sqlmodel.tiangolo.com/tutorial/fastapi/delete/>
