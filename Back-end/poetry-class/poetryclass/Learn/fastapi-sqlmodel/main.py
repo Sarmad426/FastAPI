@@ -6,12 +6,22 @@ FastAPI SqlModel code from official documentation
 from fastapi import FastAPI
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
-
-class Hero(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class HeroBase(SQLModel):
     name: str = Field(index=True)
     secret_name: str
     age: int | None = Field(default=None, index=True)
+
+class Hero(HeroBase, table=True):
+    id: int | None = Field(default=None,primary_key=True)
+
+# Multiple models
+
+class HeroCreate(HeroBase):
+    pass
+
+
+class HeroPublic(HeroBase):
+    id: int
 
 
 sqlite_file_name = "database.db"
@@ -33,14 +43,14 @@ def on_startup():
     create_db_and_tables()
 
 # Create new hero
-@app.post("/heroes/",response_model=Hero) # Response model
-def create_hero(hero: Hero):
+@app.post("/heroes/", response_model=HeroPublic) # Return type is `HeroPublic`
+def create_hero(hero: HeroCreate): # using the HeroCreate method
     with Session(engine) as session:
-        session.add(hero)
+        db_hero = Hero.model_validate(hero) # validating the hero
+        session.add(db_hero)
         session.commit()
-        session.refresh(hero)
-        return hero
-
+        session.refresh(db_hero)
+        return db_hero
 
 @app.get("/heroes/", response_model=list[Hero]) # Response model
 def read_heroes():
