@@ -3,7 +3,7 @@ FastAPI SqlModel code from official documentation
 <https://sqlmodel.tiangolo.com/tutorial/fastapi/simple-hero-api/>
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
 class HeroBase(SQLModel):
@@ -53,7 +53,15 @@ def create_hero(hero: HeroCreate): # using the HeroCreate method
         return db_hero
 
 @app.get("/heroes/", response_model=list[Hero]) # Response model
-def read_heroes():
+def read_heroes(offset: int = 0, limit : int = Query(default=100,le=10)):
     with Session(engine) as session:
-        heroes = session.exec(select(Hero)).all()
+        heroes = session.exec(select(Hero).offset(offset).limit(limit)).all()
         return heroes
+    
+@app.get("/heroes/{hero_id}", response_model=HeroPublic)
+def read_hero(hero_id: int):
+    with Session(engine) as session:
+        hero = session.get(Hero, hero_id)
+        if not hero: # validation
+            raise HTTPException(status_code=404, detail="Hero not found")
+        return hero

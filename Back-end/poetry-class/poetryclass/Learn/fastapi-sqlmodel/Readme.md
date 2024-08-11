@@ -130,3 +130,37 @@ class HeroPublic(HeroBase):
 With that it won't ask for id field in the interactive docs of Swagger UI. <http://127.0.0.1:8000/docs>
 
 Docs: <https://sqlmodel.tiangolo.com/tutorial/fastapi/multiple-models>
+
+## Read one field
+
+```py
+from fastapi import HTTPException
+
+@app.get("/heroes/{hero_id}", response_model=HeroPublic)
+def read_hero(hero_id: int):
+    with Session(engine) as session:
+        hero = session.get(Hero, hero_id)
+        if not hero: # validating
+            raise HTTPException(status_code=404, detail="Hero not found")
+        return hero
+```
+
+Docs: <https://sqlmodel.tiangolo.com/tutorial/fastapi/read-one/>
+
+## Limit and Offset
+
+Query parameter will be used here. To learn about them check out the [code here](../path-query-parameters/main.py)
+
+```py
+from fastapi import FastAPI, HTTPException, Query
+
+@app.get("/heroes/", response_model=list[HeroPublic])
+def read_heroes(offset: int = 0, limit: int = Query(default=100, le=100)):
+    with Session(engine) as session:
+        heroes = session.exec(select(Hero).offset(offset).limit(limit)).all() # limit & offset
+        return heroes
+```
+
+It has to be less than or equal to 100 with le=100.
+
+Docs: <https://sqlmodel.tiangolo.com/tutorial/fastapi/limit-and-offset/>
