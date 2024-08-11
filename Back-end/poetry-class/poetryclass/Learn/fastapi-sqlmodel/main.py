@@ -11,18 +11,25 @@ class HeroBase(SQLModel):
     secret_name: str
     age: int | None = Field(default=None, index=True)
 
-class Hero(HeroBase, table=True):
-    id: int | None = Field(default=None,primary_key=True)
 
-# Multiple models
+class Hero(HeroBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    hashed_password: str = Field()
+
 
 class HeroCreate(HeroBase):
-    pass
+    password: str
 
 
 class HeroPublic(HeroBase):
     id: int
 
+
+class HeroUpdate(SQLModel):
+    name: str | None = None
+    secret_name: str | None = None
+    age: int | None = None
+    password: str | None = None
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
@@ -42,15 +49,23 @@ app = FastAPI()
 def on_startup():
     create_db_and_tables()
 
+def hash_password(password: str) -> str:
+    # Use something like passlib here
+    return f"not really hashed {password} hehehe"
+
+
 # Create new hero
-@app.post("/heroes/", response_model=HeroPublic) # Return type is `HeroPublic`
-def create_hero(hero: HeroCreate): # using the HeroCreate method
+@app.post("/heroes/", response_model=HeroPublic)
+def create_hero(hero: HeroCreate):
+    hashed_password = hash_password(hero.password)
     with Session(engine) as session:
-        db_hero = Hero.model_validate(hero) # validating the hero
+        extra_data = {"hashed_password": hashed_password}
+        db_hero = Hero.model_validate(hero, update=extra_data)
         session.add(db_hero)
         session.commit()
         session.refresh(db_hero)
         return db_hero
+    
 
 @app.get("/heroes/", response_model=list[Hero]) # Response model
 def read_heroes(offset: int = 0, limit : int = Query(default=100,le=10)):
@@ -65,3 +80,21 @@ def read_hero(hero_id: int):
         if not hero: # validation
             raise HTTPException(status_code=404, detail="Hero not found")
         return hero
+
+@app.patch("/heroes/{hero_id}", response_model=HeroPublic)
+def update_hero(hero_id: int, hero: HeroUpdate):
+    with Session(engine) as session:
+        db_hero = session.get(Hero, hero_id)
+        if not db_hero:
+            raise HTTPException(status_code=404, detail="Hero not found")
+        hero_data = hero.model_dump(exclude_unset=True)
+        extra_data = {}
+        if "password" in hero_data:
+            password = hero_data["password"]
+            hashed_password = hash_password(password)
+            extra_data["hashed_password"] = hashed_password
+        db_hero.sqlmodel_update(hero_data, update=extra_data)
+        session.add(db_hero)
+        session.commit()
+        session.refresh(db_hero)
+        return db_hero
