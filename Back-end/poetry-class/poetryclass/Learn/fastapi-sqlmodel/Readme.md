@@ -196,6 +196,27 @@ class HeroUpdate(SQLModel):
     password: str | None = None
 ```
 
+**Patch method:**
+
+```py
+@app.patch("/heroes/{hero_id}", response_model=HeroPublic)
+def update_hero(hero_id: int, hero: HeroUpdate):
+    with Session(engine) as session:
+        db_hero = session.get(Hero, hero_id)
+        if not db_hero:
+            raise HTTPException(status_code=404, detail="Hero not found")
+        hero_data = hero.model_dump(exclude_unset=True)
+        db_hero.sqlmodel_update(hero_data)
+        session.add(db_hero)
+        session.commit()
+        session.refresh(db_hero)
+        return db_hero
+```
+
+Docs: <https://sqlmodel.tiangolo.com/tutorial/fastapi/update>
+
+## Updating with Extra Data (Hashed Passwords)
+
 Fake password hashing while creating new hero
 
 SQLModel models have a parameter `update` in Hero.model_validate() that takes a dictionary with extra data, or data that should take precedence.
@@ -237,6 +258,20 @@ def update_hero(hero_id: int, hero: HeroUpdate):
         session.commit()
         session.refresh(db_hero)
         return db_hero
+```
+
+## Delete data
+
+```py
+@app.delete("/heroes/{hero_id}")
+def delete_hero(hero_id: int):
+    with Session(engine) as session:
+        hero = session.get(Hero, hero_id)
+        if not hero:
+            raise HTTPException(status_code=404, detail="Hero not found")
+        session.delete(hero)
+        session.commit()
+        return {"ok": True}
 ```
 
 Docs: <https://sqlmodel.tiangolo.com/tutorial/fastapi/update-extra-data>
