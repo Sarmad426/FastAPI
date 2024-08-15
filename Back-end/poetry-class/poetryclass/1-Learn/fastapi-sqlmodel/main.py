@@ -1,86 +1,13 @@
 """
-FastAPI SqlModel code from official documentation
+FastAPI SqlModel code examples from official documentation
 <https://sqlmodel.tiangolo.com/tutorial/fastapi/simple-hero-api/>
 """
 
 from fastapi import FastAPI, HTTPException, Query, Depends
-from sqlmodel import Field, Session, SQLModel, create_engine, select, Relationship
+from sqlmodel import Session, SQLModel, create_engine, select
 
-class TeamBase(SQLModel):
-    name: str = Field(index=True)
-    headquarters: str
-
-
-class Team(TeamBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-
-    heroes: list["Hero"] = Relationship(back_populates="team")
-
-
-class TeamCreate(TeamBase):
-    pass
-
-
-class TeamPublic(TeamBase):
-    id: int
-
-
-class TeamUpdate(SQLModel):
-    name: str | None = None
-    headquarters: str | None = None
-
-
-class HeroBase(SQLModel):
-    name: str = Field(index=True)
-    secret_name: str
-    age: int | None = Field(default=None, index=True)
-
-    team_id: int | None = Field(default=None, foreign_key="team.id")
-
-
-class Hero(HeroBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-
-    team: Team | None = Relationship(back_populates="heroes")
-
-
-class HeroPublic(HeroBase):
-    id: int
-
-
-class HeroCreate(HeroBase):
-    pass
-
-
-class HeroUpdate(SQLModel):
-    name: str | None = None
-    secret_name: str | None = None
-    age: int | None = None
-    team_id: int | None = None
-
-class HeroPublicWithTeam(HeroPublic):
-    team: TeamPublic | None = None
-
-
-class TeamPublicWithHeroes(TeamPublic):
-    heroes: list[HeroPublic] = []
-
-sqlite_file_name = "database.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
-
-connect_args = {"check_same_thread": False}
-engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
-
-
-def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
-
-def get_session():
-    """
-    Returns database session
-    """
-    with Session(engine) as session:
-        yield session
+from schema import Team, TeamCreate, TeamPublic, TeamPublicWithHeroes, TeamUpdate, Hero, HeroCreate, HeroPublic, HeroPublicWithTeam, HeroUpdate
+from db_connection import create_db_and_tables, get_session
 
 app = FastAPI()
 
@@ -91,7 +18,7 @@ def on_startup():
 
 def hash_password(password: str) -> str:
     # Use something like passlib here
-    return f"not really hashed {password} hehehe"
+    return f"not really hashed {password}"
 
 
 # Create new hero
