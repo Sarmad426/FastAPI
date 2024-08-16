@@ -1,10 +1,9 @@
 """
 FastAPI SqlModel code examples from official documentation
-<https://sqlmodel.tiangolo.com/tutorial/fastapi/simple-hero-api/>
 """
 
 from fastapi import FastAPI, HTTPException, Query, Depends
-from sqlmodel import Session, SQLModel, create_engine, select
+from sqlmodel import Session, select
 
 from schema import Team, TeamCreate, TeamPublic, TeamPublicWithHeroes, TeamUpdate, Hero, HeroCreate, HeroPublic, HeroPublicWithTeam, HeroUpdate
 from db_connection import create_db_and_tables, get_session
