@@ -128,7 +128,7 @@ pytest
 
 ## Configure in-memory database for testing
 
-Sqlite has an in-memory database, which suits perfectly for testing purposes. Which means it won't be create a separate file in the disk.
+Sqlite has an in-memory database, which suits perfectly for testing purposes. Which means it won't be create a separate file in the disk. The database is deleted after the program is terminated.And also, because it never has to write anything to a file and it's all just in memory, it will be even faster than normally.🚀
 
 ```py
 from fastapi.testclient import TestClient
