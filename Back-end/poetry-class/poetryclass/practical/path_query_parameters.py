@@ -41,8 +41,14 @@ def read_item_by_id(item_id:int):
 
 # Query parameters
 @app.get('/')
-def read_item_by_query():
-    return FAKE_DATA
+def read_item_by_query(item_id:int):
+    try:
+        for item in FAKE_DATA:
+            if item['id'] == item_id:
+                return item
+        return JSONResponse(status_code=404,content={"error": {"code": 404, "message": "No item found"}})
+    except Exception as e:
+        return HTTPException(status_code=404,detail='No item found')
     
 # Type a url like that <http://127.0.0.1:8000/?item_id=4>
 
