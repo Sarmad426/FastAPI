@@ -32,6 +32,10 @@ Docs: <https://fastapi.tiangolo.com/tutorial/body/>
 
 ## Cookie parameters
 
+These are pieces of data stored on the client side and sent to the server with every HTTP request. Cookies can be used for session management, personalization, and tracking. They help the server maintain stateful information about the user across multiple requests.
+
+> Cookie parameters can be defined the same way as Path and Query parameters.
+
 ```py
 from typing import Annotated
 
@@ -46,3 +50,22 @@ async def read_items(ads_id: Annotated[str | None, Cookie()] = None):
 ```
 
 Docs: <https://fastapi.tiangolo.com/tutorial/cookie-params/>
+
+## Header parameters
+
+These are key-value pairs included in the headers of an HTTP request or response. They provide meta-information about the request or response, such as content type, authentication details, user-agent information, and more. Header parameters are crucial for controlling how the server processes the request and how the client should interpret the response.
+
+```py
+from typing import Annotated
+
+from fastapi import FastAPI, Header
+
+app = FastAPI()
+
+
+@app.get("/items/")
+async def read_items(user_agent: Annotated[str | None, Header()] = None):
+    return {"User-Agent": user_agent}
+```
+
+Docs: <https://fastapi.tiangolo.com/tutorial/header-params>
