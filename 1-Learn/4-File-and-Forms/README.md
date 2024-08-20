@@ -147,3 +147,55 @@ async def create_upload_files(files: list[UploadFile]):
 ```
 
 Docs: <https://fastapi.tiangolo.com/tutorial/request-files/>
+
+## Request Form and Files
+
+You can define files and form fields at the same time using `File` and `Form`.
+
+Again `python-multipart` is required to be installed.
+
+Import `File` and `Form`
+
+```py
+from fastapi import FastAPI, File, Form, UploadFile
+```
+
+### Define File and Form parameters
+
+```py
+@app.post("/files/")
+async def create_file(
+    file: Annotated[bytes, File()],
+    fileb: Annotated[UploadFile, File()],
+    token: Annotated[str, Form()],
+):
+```
+
+**Complete file:**
+
+```py
+
+from typing import Annotated
+
+from fastapi import FastAPI, File, Form, UploadFile
+
+app = FastAPI()
+
+
+@app.post("/files/")
+async def create_file(
+    file: Annotated[bytes, File()],
+    fileb: Annotated[UploadFile, File()],
+    token: Annotated[str, Form()],
+):
+    return {
+        "file_size": len(file),
+        "token": token,
+        "fileb_content_type": fileb.content_type,
+    }
+
+```
+
+The files and form fields will be uploaded as form data and you will receive the files and form fields.
+
+Docs: <https://fastapi.tiangolo.com/tutorial/request-forms-and-files/>
