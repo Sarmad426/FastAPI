@@ -1,6 +1,54 @@
 # Fast API Session dependency
 
+## Dependency
+
+A dependency is specific information that you need at some point. The usual way to get this information is to write code that gets it, right when you need it.
+
+When you’re writing a web service, at some time you may need to do the following:
+
+- Gather input parameters from the HTTP request
+- Validate inputs
+- Check user authentication and authorization for some endpoints
+- Look up data from a data source, often a database
+- Emit metrics, logs, or tracking information
+
+## Dependency Injection
+
+Pass any specific information that a function needs into the function. A traditional way to do this is to pass in a helper function, which you then call to get the specific data.
+
+### Dependency Injection in FastAPI
+
+Dependency injection is a design pattern used in FastAPI to manage dependencies between different parts of your application.
+
+### What is Dependency Injection?
+
+Dependency Injection (DI) is a technique where one object supplies the dependencies of another object. It promotes loose coupling, reusability, and modular design by allowing objects to be easily replaced or modified without affecting other parts of the system.
+
+There are three main types of dependency injection:
+
+- **Constructor Injection**: Dependencies are provided through a class's constructor.
+- **Setter Injection**: Dependencies are provided through setter methods.
+- **Interface Injection**: Dependencies are provided through an interface.
+
+### Dependency Injection FastAPI
+
+FastAPI uses dependency injection to manage dependencies between various parts of your application, particularly within API endpoints.
+
+Here's how it works in FastAPI:
+
+1. **Declare Dependencies**: Define dependencies as function parameters in your route functions.
+
+2. **Dependency Resolution**: FastAPI resolves dependencies by creating instances of the required classes or functions.
+
+3. **Injection**: Inject instances of dependencies into your route functions automatically.
+
+4. **Automatic Cleanup**: FastAPI handles the lifecycle of dependencies, including cleanup after request processing.
+
+First create a function for getting the database session.
+
 ```py
+from sqlmodel import Session
+
 def get_session():
     with Session(engine) as session:
         yield session
