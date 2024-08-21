@@ -20,6 +20,8 @@ Pass any specific information that a function needs into the function. A traditi
 
 Dependency injection is a design pattern used in FastAPI to manage dependencies between different parts of your application.
 
+Docs: <https://fastapi.tiangolo.com/tutorial/dependencies/#what-is-dependency-injection>
+
 ### What is Dependency Injection?
 
 Dependency Injection (DI) is a technique where one object supplies the dependencies of another object. It promotes loose coupling, reusability, and modular design by allowing objects to be easily replaced or modified without affecting other parts of the system.
