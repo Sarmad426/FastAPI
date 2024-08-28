@@ -8,6 +8,13 @@
   </head>
   <body>
     <div class="container">
+      <img
+        id="loading-gif"
+        src="../assets/loading.gif"
+        alt="Loading..."
+        style="display: none"
+      />
+
       <div id="login-form">
         <h2>Login</h2>
         <div class="form-group">
@@ -21,7 +28,9 @@
         <button class="btn" onclick="login()">Login</button>
         <div class="error" id="error-message"></div>
       </div>
+
       <div id="welcome-message" class="welcome" style="display: none"></div>
+      <button id="logout-btn" class="btn" onclick="logout()">Logout</button>
     </div>
 
     <script src="script.js"></script>

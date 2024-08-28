@@ -1,3 +1,12 @@
+/* Add this CSS for the loading GIF */
+#loading-gif {
+  width: 50px; /* Adjust size as needed */
+  height: 50px;
+  display: block;
+  margin: 0 auto 20px auto; /* Center it */
+}
+
+/* Existing CSS styles */
 body {
   font-family: Arial, sans-serif;
   display: flex;
@@ -64,4 +73,15 @@ body {
   font-size: 1.5rem;
   color: #007bff;
   text-align: center;
+}
+
+#logout-btn {
+  background-color: orange;
+  color: inherit;
+  width: 50%;
+  margin: 10px auto;
+  transition: 0.2s ease-in-out;
+  &:hover {
+    background-color: rgb(246, 163, 9);
+  }
 }
