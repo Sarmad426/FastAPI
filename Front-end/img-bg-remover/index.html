@@ -26,7 +26,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
       }
 
       .drop-zone.dragover {
@@ -37,16 +36,17 @@
   <body>
     <div id="dropZone" class="drop-zone">
       <h1>Image Background Remover</h1>
-      <input id="fileInput" type="file" name="file" />
+      <input
+        placeholder="Upload image"
+        id="fileInput"
+        type="file"
+        name="file"
+      />
     </div>
 
     <script>
       let dropZone = document.getElementById("dropZone");
       let fileInput = document.getElementById("fileInput");
-
-      dropZone.addEventListener("click", function () {
-        fileInput.click();
-      });
 
       fileInput.addEventListener("change", function () {
         if (fileInput.files.length > 0) {
