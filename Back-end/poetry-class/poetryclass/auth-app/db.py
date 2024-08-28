@@ -12,7 +12,7 @@ class User(SQLModel, table=True):
     password: str
     role: str
 
-class UserCreate(SQLModel, table=False):
+class UserCreate(SQLModel):
     name: str
     email: str
     password: str

@@ -1,9 +1,7 @@
 from fastapi import FastAPI,Depends,HTTPException
 from contextlib import asynccontextmanager
-from db import create_db_and_tables,engine,User,UserCreate,get_session
-from sqlmodel import Session,select
-from pydantic import BaseModel
-import json
+from db import create_db_and_tables,User,UserCreate,get_session
+from sqlmodel import SQLModel, Session, select
 from fastapi.middleware.cors import CORSMiddleware
 from bcrypt import hashpw, gensalt
 import logging
@@ -17,7 +15,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-class UseLogin(BaseModel):
+class UseLogin(SQLModel):
     email: str
     password: str
 
@@ -56,28 +54,26 @@ async def create_user(user: UserCreate, session: Session = Depends(get_session))
     return {
         "user": user
     }
-   
 
 
 @app.post("/login")
 async def login(user: UseLogin, session: Session = Depends(get_session)):
     loggger.info(f"Logging in user {user}")
-    isUser = session.exec(select(User).where(User.email == user.email)).first()
-    if isUser is None:
+    db_user = session.exec(select(User).where(User.email == user.email)).first()
+    if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     
-    
-    if not hashpw(user.password.encode("utf-8"), isUser.password.encode("utf-8")) == isUser.password.encode("utf-8"):
+
+    if not hashpw(user.password.encode("utf-8"), db_user.password.encode("utf-8")) == db_user.password.encode("utf-8"):
         raise HTTPException(status_code=401, detail="Invalid password")
-    
     
     
     # create jwt token
     user_data = {
-        "id": isUser.id,
-        "name": isUser.name,
-        "email": isUser.email,
-        "role": isUser.role
+        "id": db_user.id,
+        "name": db_user.name,
+        "email": db_user.email,
+        "role": db_user.role
     }
     token = jwt.encode(user_data, "secret", algorithm="HS256")
     return {
