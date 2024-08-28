@@ -7,7 +7,7 @@ const scoreElement = document.getElementById('score');
 
 let quizData = [];
 let currentQuestionIndex = 0;
-let score = 0;
+let points = 0;
 
 async function fetchQuizData() {
     const response = await fetch('http://127.0.0.1:8000/');
@@ -53,31 +53,29 @@ function showQuestion() {
 async function selectOption(selectedIndex) {
     const questionData = quizData[currentQuestionIndex];
     if (selectedIndex === questionData.correct_option) {
-        score++;
+        points++;
     }
     currentQuestionIndex++;
     showQuestion()
 }
 
 async function showResults() {
-    const url = `http://127.0.0.1:8000/points/update/${score}`;
-    await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-});
+//     const url = `http://127.0.0.1:8000/points/update/?points=${points}`;
+//     await fetch(url, {
+//         method: 'PATCH',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+// });
     questionContainer.classList.add('hidden');
     resultContainer.classList.remove('hidden');
-    scoreElement.innerText = `Your score is ${score} out of ${quizData.length}`;
+    scoreElement.innerText = `Your points is ${points} out of ${quizData.length}`;
 }
 
 function restartQuiz() {
-    score = 0;
+    points = 0;
     currentQuestionIndex = 0;
     fetchQuizData();
 }
-
-
 
 fetchQuizData();
