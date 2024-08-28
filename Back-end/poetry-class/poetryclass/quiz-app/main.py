@@ -82,20 +82,6 @@ def get_quiz_question_by_id(session:Annotated[Session,Depends(get_session)],id:i
     raise HTTPException(status_code=404,detail=f"Question not found with id {id}")
 
 
-@app.patch('/points/update')
-def add_points(session: Annotated[Session, Depends(get_session)],points:int):
-    """
-    Edit the points counter
-    """
-    points = session.exec(select(Points)).first()
-    if points:
-        points.points = points
-        session.commit()
-        session.refresh(points)
-        return points
-    raise HTTPException(status_code=404,details="Could not update points")
-    
-
 @app.get('/points/total')
 def get_points(session: Annotated[Session, Depends(get_session)]):
     """
@@ -103,6 +89,21 @@ def get_points(session: Annotated[Session, Depends(get_session)]):
     """
     points = session.exec(select(Points)).first()
     if points:
-        print(points)
         return points
     raise HTTPException(status_code=404, detail="No points found")
+
+
+@app.patch('/points/update')
+def edit_points(session: Annotated[Session, Depends(get_session)], points: int):
+    """
+    Edit the points counter
+    """
+    db_points = session.exec(select(Points)).first()
+    print("Db points",db_points)
+    if db_points:
+        db_points.points = points
+        session.add(db_points)
+        session.commit()
+        session.refresh(db_points)
+        return db_points
+    raise HTTPException(status_code=404, detail='No points found')
