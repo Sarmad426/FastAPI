@@ -2,6 +2,7 @@ const loginForm = document.getElementById('login-form');
 const welcomeMessage = document.getElementById('welcome-message');
 const errorMessage = document.getElementById('error-message');
 const loadingGif = document.getElementById('loading-gif');
+const linkToRegister = document.getElementById('link-to-register');
 
 // Function to display the welcome message
 function displayWelcomeMessage(name) {
@@ -49,6 +50,7 @@ logoutBtn.style.display = 'none'; // Hide logout button if user is logged out
 async function getUserDetails(token) {
     loadingGif.style.display = 'block'; // Show loading gif
     loginForm.style.display = 'none'; // Hide the form during the loading
+    linkToRegister.style.display = 'none'; // Hide the link to register
 
     const response = await fetch(`http://127.0.0.1:8000/secret?token=${token}`, {
         method: 'GET',
