@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import FastAPI,Depends,HTTPException
 from contextlib import asynccontextmanager
 from db import create_db_and_tables,User,UserCreate,get_session
@@ -89,3 +91,9 @@ async def secret(token: str):
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
     
+@app.get('/users')
+def read_users(session:Annotated[Session,Depends(get_session)]):
+    users = session.exec(select(User)).all()
+    if users:
+        return users
+    raise HTTPException(status_code=401, detail="No users found")
