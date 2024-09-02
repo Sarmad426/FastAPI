@@ -3,8 +3,7 @@
 ## Using `TestClient`
 
 **Info:**
-
-To use `TestClient` you need to install `httpx`.
+> To use `TestClient` you need to install `httpx`.
 
 Make sure virtualenv is activated.
 
@@ -44,11 +43,8 @@ def test_read_main():
 ```
 
 **Tip:**
-
-Notice that the testing functions are normal `def`, not `async def`.
-
+> Notice that the testing functions are normal `def`, not `async def`.
 And the calls to the client are also normal calls, not using `await`.
-
 This allows you to use `pytest` directly without complications.
 
 ### Separating tests
@@ -85,7 +81,7 @@ async def read_main():
 │   └── test_main.py
 ```
 
-Code in it.
+Tests.
 
 ```py
 from fastapi.testclient import TestClient
