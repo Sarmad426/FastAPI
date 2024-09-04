@@ -27,6 +27,7 @@ pyjwt = "^2.9.0"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 psycopg2-binary = "^2.9.9"
 python-jose = "^3.3.0"
+websockets = "^13.0.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
