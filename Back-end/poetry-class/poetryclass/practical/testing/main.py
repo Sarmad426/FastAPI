@@ -1,12 +1,23 @@
+"""
+API Testing
+"""
+
 from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get('/')
+
+@app.get("/")
 def greet():
-    return 'Hello'
+    """
+    Greet message
+    """
+    return "Hello"
 
 
-@app.get('/{name}')
-def greet(name:str):
-    return f'Hello {name}'
+@app.get("/{name}")
+def greet(name: str):
+    """
+    Greet msg with name
+    """
+    return f"Hello {name}"

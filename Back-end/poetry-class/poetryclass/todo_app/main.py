@@ -33,8 +33,10 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 
-@app.get('/', response_model=list[Todo])
-def read_todos(session: Session = Depends(get_session)) -> Union[list[Todo], JSONResponse]:
+@app.get("/", response_model=list[Todo])
+def read_todos(
+    session: Session = Depends(get_session),
+) -> Union[list[Todo], JSONResponse]:
     """
     Read all todos from database
 
@@ -48,20 +50,25 @@ def read_todos(session: Session = Depends(get_session)) -> Union[list[Todo], JSO
         query = select(Todo)
         todos: list[Todo] = session.exec(query).all()
         if not todos:
-            return JSONResponse(status_code=404, content={"error": {"code": 404, "message": "No todos in the database"}})
+            return JSONResponse(
+                status_code=404,
+                content={"error": {"code": 404, "message": "No todos in the database"}},
+            )
         return todos
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post('/new/todo')
-def create_new_todo(session:Annotated[Session,Depends(get_session)],todo:Todo) -> Todo:
+@app.post("/new/todo")
+def create_new_todo(
+    session: Annotated[Session, Depends(get_session)], todo: Todo
+) -> Todo:
     """Create new todo
 
     Args:
         todo (Todo)
     """
-    new_todo = Todo(title=todo.title,completed=todo.completed)
+    new_todo = Todo(title=todo.title, completed=todo.completed)
     session.add(new_todo)
     try:
         session.commit()
@@ -70,7 +77,7 @@ def create_new_todo(session:Annotated[Session,Depends(get_session)],todo:Todo) -
         # Undo partial changes if error happens
         session.rollback()
         raise HTTPException(status_code=400, detail=str(e))
-    
+
     return new_todo
 
 
@@ -83,7 +90,12 @@ def get_todo_by_id(session: Annotated[Session, Depends(get_session)], id: int):
         query = select(Todo).where(Todo.id == id)
         todo: Todo | None = session.exec(query).first()
         if not todo:
-            return JSONResponse(status_code=404, content={"error": {"code": 404, "message": f"Todo not found with id {id}"}})
+            return JSONResponse(
+                status_code=404,
+                content={
+                    "error": {"code": 404, "message": f"Todo not found with id {id}"}
+                },
+            )
         return todo
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -125,7 +137,7 @@ def edit_todo(
     return existing_todo
 
 
-@app.delete('/delete/todo/{todo_id}', response_model=Todo)
+@app.delete("/delete/todo/{todo_id}", response_model=Todo)
 def delete_todo(todo_id: int, session: Session = Depends(get_session)) -> JSONResponse:
     """
     Delete a todo by ID
@@ -139,11 +151,16 @@ def delete_todo(todo_id: int, session: Session = Depends(get_session)) -> JSONRe
     try:
         todo = session.get(Todo, todo_id)
         if not todo:
-            raise HTTPException(status_code=404, detail=f"Todo with ID {todo_id} not found")
+            raise HTTPException(
+                status_code=404, detail=f"Todo with ID {todo_id} not found"
+            )
 
         session.delete(todo)
         session.commit()
-        return JSONResponse(status_code=200, content={"detail": f"Todo with ID {todo_id} deleted successfully"})
+        return JSONResponse(
+            status_code=200,
+            content={"detail": f"Todo with ID {todo_id} deleted successfully"},
+        )
     except HTTPException as e:
         raise e
     except Exception as e:

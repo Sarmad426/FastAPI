@@ -1,3 +1,7 @@
+"""
+Image background remover
+"""
+
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -19,6 +23,9 @@ app.add_middleware(
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
+    """
+    Uploads file
+    """
     # Read the image file
     image_data = await file.read()
 

@@ -1,3 +1,7 @@
+"""
+Cookies and tokens
+"""
+
 from typing import Annotated
 
 from fastapi import (
@@ -60,6 +64,9 @@ html = """
 
 @app.get("/")
 async def get():
+    """
+    Returns the html page
+    """
     return HTMLResponse(html)
 
 
