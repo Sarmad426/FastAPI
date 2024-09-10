@@ -1,3 +1,7 @@
+"""
+Music Recommender app backend
+"""
+
 from typing import Union
 
 from fastapi import FastAPI
@@ -35,24 +39,25 @@ prediction = model.predict([[21, 1], [22, 0]])
 
 @app.get("/")
 def read_root():
-    return {"Hello": {prediction[0]}}
+    """
+    Read root
+    """
+    return "This is a simple Music Recommender"
 
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
+    """
+    Read item by id
+    """
     return {"item_id": item_id, "q": q}
 
 
-# @app.post("/recommend")
-# def recommend_music(age: int, gender: int):
-#     """
-#     Recommends music
-#     """
-#     predict = model.predict([[age, gender]])
-#     return predict[0]
-
-
 class RecommendationRequest(SQLModel):
+    """
+    Recommendation request model
+    """
+
     age: int
     gender: int
 
