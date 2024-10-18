@@ -16,7 +16,12 @@ class Item(BaseModel):
     tags: set[str] = set()
 
 
-@app.post("/items/", response_model=Item, summary="Create an item",response_description="The created item")
+@app.post(
+    "/items/",
+    response_model=Item,
+    summary="Create an item",
+    response_description="The created item",
+)
 async def create_item(item: Item):
     """
     Create an item with all the information:
@@ -29,6 +34,7 @@ async def create_item(item: Item):
     """
     return item
 
+
 @app.get("/items/", tags=["items"])
 async def read_items():
     return [{"name": "Foo", "price": 42}]
@@ -37,6 +43,7 @@ async def read_items():
 @app.get("/users/", tags=["users"])
 async def read_users():
     return [{"username": "johndoe"}]
+
 
 @app.get("/elements/", tags=["items"], deprecated=True)
 async def read_elements():

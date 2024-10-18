@@ -5,7 +5,18 @@ FastAPI SqlModel code examples from official documentation
 from fastapi import FastAPI, HTTPException, Query, Depends
 from sqlmodel import Session, select
 
-from schema import Team, TeamCreate, TeamPublic, TeamPublicWithHeroes, TeamUpdate, Hero, HeroCreate, HeroPublic, HeroPublicWithTeam, HeroUpdate
+from schema import (
+    Team,
+    TeamCreate,
+    TeamPublic,
+    TeamPublicWithHeroes,
+    TeamUpdate,
+    Hero,
+    HeroCreate,
+    HeroPublic,
+    HeroPublicWithTeam,
+    HeroUpdate,
+)
 from db_connection import create_db_and_tables, get_session
 
 app = FastAPI()
@@ -14,6 +25,7 @@ app = FastAPI()
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
+
 
 def hash_password(password: str) -> str:
     # Use something like passlib here
@@ -73,6 +85,7 @@ def delete_hero(*, session: Session = Depends(get_session), hero_id: int):
     session.delete(hero)
     session.commit()
     return {"ok": True}
+
 
 @app.post("/teams/", response_model=TeamPublic)
 def create_team(*, session: Session = Depends(get_session), team: TeamCreate):

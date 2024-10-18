@@ -6,14 +6,19 @@ from sqlmodel.pool import StaticPool
 
 # Create a new database session for testing
 DATABASE_URL = "sqlite://"
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False}, poolclass=StaticPool)
+engine = create_engine(
+    DATABASE_URL, connect_args={"check_same_thread": False}, poolclass=StaticPool
+)
+
 
 # Dependency override to use the test database
 def get_test_session():
     with Session(engine) as session:
         yield session
 
+
 app.dependency_overrides[get_session] = get_test_session
+
 
 @pytest.fixture(name="client")
 def client_fixture():
@@ -22,10 +27,12 @@ def client_fixture():
         yield client
     SQLModel.metadata.drop_all(engine)
 
+
 def test_get_todos(client):
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == []
+
 
 def test_create_todo(client):
     response = client.post("/new/todo", json={"title": "Test Todo", "completed": False})
@@ -34,6 +41,7 @@ def test_create_todo(client):
     assert data["title"] == "Test Todo"
     assert data["completed"] is False
     assert "id" in data
+
 
 def test_get_todo_by_id(client):
     response = client.post("/new/todo", json={"title": "Test Todo", "completed": False})
@@ -44,14 +52,18 @@ def test_get_todo_by_id(client):
     assert data["title"] == "Test Todo"
     assert data["completed"] is False
 
+
 def test_edit_todo(client):
     response = client.post("/new/todo", json={"title": "Test Todo", "completed": False})
     todo_id = response.json()["id"]
-    response = client.patch(f"/edit/todo/{todo_id}", json={"title": "Updated Todo", "completed": True})
+    response = client.patch(
+        f"/edit/todo/{todo_id}", json={"title": "Updated Todo", "completed": True}
+    )
     assert response.status_code == 200
     data = response.json()
     assert data["title"] == "Updated Todo"
     assert data["completed"] is True
+
 
 def test_delete_todo(client):
     response = client.post("/new/todo", json={"title": "Test Todo", "completed": False})

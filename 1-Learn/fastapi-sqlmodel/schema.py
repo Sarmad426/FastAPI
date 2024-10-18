@@ -4,6 +4,7 @@ FastAPI SQLModel app database schema
 
 from sqlmodel import SQLModel, Field, Relationship
 
+
 class TeamBase(SQLModel):
     name: str = Field(index=True)
     headquarters: str
@@ -55,6 +56,7 @@ class HeroUpdate(SQLModel):
     secret_name: str | None = None
     age: int | None = None
     team_id: int | None = None
+
 
 class HeroPublicWithTeam(HeroPublic):
     team: TeamPublic | None = None

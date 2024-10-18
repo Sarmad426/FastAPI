@@ -9,21 +9,19 @@ from main import app
 from db_connection import get_session
 
 
-TEST_DB_URL = 'sqlite:///testing.db'
+TEST_DB_URL = "sqlite:///testing.db"
+
 
 def test_create_hero():
-    engine = create_engine(  
-        TEST_DB_URL, connect_args={"check_same_thread": False}
-    )
-    SQLModel.metadata.create_all(engine)  
+    engine = create_engine(TEST_DB_URL, connect_args={"check_same_thread": False})
+    SQLModel.metadata.create_all(engine)
 
-    with Session(engine) as session:  
+    with Session(engine) as session:
 
         def get_session_override():
-            return session  
+            return session
 
         app.dependency_overrides[get_session] = get_session_override
-        
 
         client = TestClient(app)
 

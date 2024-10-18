@@ -45,11 +45,8 @@ app = FastAPI(
         "url": "https://sarmad-portfolio.vercel.app/",
         "email": "sarmadrafique040@gmail.com",
     },
-    license_info={
-        "name": "Apache 2.0",
-        "identifier": "MIT"
-    },
-    openapi_tags=tags_metadata
+    license_info={"name": "Apache 2.0", "identifier": "MIT"},
+    openapi_tags=tags_metadata,
 )
 
 
