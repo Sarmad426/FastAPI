@@ -133,3 +133,15 @@ Open the following URLs in your browser:
 
 - <http://127.0.0.1:8000> to view the hello world message.
 - <http://127.0.0.1:8000/docs> to view the interactive API documentation.
+
+### Other Repositories
+
+**Python**. <https://github.com/Sarmad426/Python>
+
+**Python Projects**. <https://github.com/Sarmad426/Python-projects>
+
+Learn **DSA** with python. <https://github.com/Sarmad426/DSA-Python>
+
+Learn **AI** and **Data Science**. <https://github.com/Sarmad426/AI>
+
+Learn **Generative AI**. <https://github.com/Sarmad426/Generative-AI>
