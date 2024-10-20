@@ -2,15 +2,27 @@
 FastAPI quiz app entry point
 """
 
+from contextlib import asynccontextmanager
+from typing import Annotated
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel, Session, select
+
+
 from schema import Quiz, Points, get_session
 from database import engine
-from typing import Annotated
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Creates the database and the quiz table if it doesn't exist
+    """
+    SQLModel.metadata.create_all(engine)
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 # Allow any origin, credentials, and specific methods and headers
@@ -25,16 +37,8 @@ app.add_middleware(
 )
 
 
-@app.on_event("startup")
-def create_db_and_tables():
-    """
-    Creates the database and the quiz table if it doesn't exist
-    """
-    SQLModel.metadata.create_all(engine)
-
-
 @app.get("/")
-def get_quizes(session: Annotated[Session, Depends(get_session)]):
+def get_quizzes(session: Annotated[Session, Depends(get_session)]):
     """
     Returns all the quizzes
     """
