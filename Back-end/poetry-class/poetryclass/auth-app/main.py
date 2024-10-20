@@ -2,16 +2,17 @@
 Auth app backend
 """
 
+from contextlib import asynccontextmanager
 from typing import Annotated
+from jose import JWTError, jwt
 
 from fastapi import FastAPI, Depends, HTTPException
-from contextlib import asynccontextmanager
-from db import create_db_and_tables, User, UserCreate, get_session
-from sqlmodel import SQLModel, Session, select
 from fastapi.middleware.cors import CORSMiddleware
+from sqlmodel import SQLModel, Session, select
 from bcrypt import hashpw, gensalt
 import logging
-from jose import JWTError, jwt
+
+from db import create_db_and_tables, User, UserCreate, get_session
 
 logging.basicConfig(level=logging.INFO)
 loggger = logging.getLogger(__name__)
@@ -110,8 +111,8 @@ async def secret(token: str):
     try:
         payload = jwt.decode(token, "secret", algorithms=["HS256"])
         return payload
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+    except JWTError as e:
+        raise HTTPException(status_code=401, detail="Invalid token") from e
 
 
 @app.get("/users")
