@@ -2,7 +2,8 @@
 FastAPI todo app Crud Operation API's
 """
 
-from typing import Annotated, Union
+from contextlib import asynccontextmanager
+from typing import Annotated
 
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import JSONResponse
@@ -15,7 +16,19 @@ from database import engine, get_session
 from schema import Todo
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Create database tables and yield
+    """
+    SQLModel.metadata.create_all(engine)
+    yield
+
+
+app = FastAPI(
+    lifespan=lifespan, title="Todo API", description="A simple Todo app API's"
+)
+
 
 # Allow middleware
 app.add_middleware(
@@ -27,16 +40,10 @@ app.add_middleware(
 )
 
 
-@app.on_event("startup")
-def create_db_and_tables():
-    """Create database and tables on startup"""
-    SQLModel.metadata.create_all(engine)
-
-
 @app.get("/", response_model=list[Todo])
 def read_todos(
     session: Session = Depends(get_session),
-) -> Union[list[Todo], JSONResponse]:
+) -> list[Todo] | JSONResponse:
     """
     Read all todos from database
 
@@ -48,7 +55,7 @@ def read_todos(
     """
     try:
         query = select(Todo)
-        todos: list[Todo] = session.exec(query).all()
+        todos = session.exec(query).all()
         if not todos:
             return JSONResponse(
                 status_code=404,
@@ -56,7 +63,7 @@ def read_todos(
             )
         return todos
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/new/todo")
@@ -76,7 +83,7 @@ def create_new_todo(
     except Exception as e:
         # Undo partial changes if error happens
         session.rollback()
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e)) from e
 
     return new_todo
 
@@ -98,7 +105,7 @@ def get_todo_by_id(session: Annotated[Session, Depends(get_session)], id: int):
             )
         return todo
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.patch("/edit/todo/{id}", response_model=Todo)
@@ -132,7 +139,7 @@ def edit_todo(
         session.refresh(existing_todo)
     except Exception as e:
         session.rollback()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
     return existing_todo
 
@@ -165,4 +172,4 @@ def delete_todo(todo_id: int, session: Session = Depends(get_session)) -> JSONRe
         raise e
     except Exception as e:
         session.rollback()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
