@@ -1125,6 +1125,21 @@ test = ["hypothesis (>=6.46.1)", "pytest (>=7.3.2)", "pytest-xdist (>=2.2.0)"]
 xml = ["lxml (>=4.9.2)"]
 
 [[package]]
+name = "pandas-stubs"
+version = "2.2.3.241009"
+description = "Type annotations for pandas"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "pandas_stubs-2.2.3.241009-py3-none-any.whl", hash = "sha256:3a6f8f142105a42550be677ba741ba532621f4e0acad2155c0e7b2450f114cfa"},
+    {file = "pandas_stubs-2.2.3.241009.tar.gz", hash = "sha256:d4ab618253f0acf78a5d0d2bfd6dffdd92d91a56a69bdc8144e5a5c6d25be3b5"},
+]
+
+[package.dependencies]
+numpy = ">=1.23.5"
+types-pytz = ">=2022.1.1"
+
+[[package]]
 name = "passlib"
 version = "1.7.4"
 description = "comprehensive password hashing framework supporting over 30 schemes"
@@ -2307,6 +2322,17 @@ files = [
 types-pyasn1 = "*"
 
 [[package]]
+name = "types-pytz"
+version = "2024.2.0.20241003"
+description = "Typing stubs for pytz"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-pytz-2024.2.0.20241003.tar.gz", hash = "sha256:575dc38f385a922a212bac00a7d6d2e16e141132a3c955078f4a4fd13ed6cb44"},
+    {file = "types_pytz-2024.2.0.20241003-py3-none-any.whl", hash = "sha256:3e22df1336c0c6ad1d29163c8fda82736909eb977281cb823c57f8bae07118b7"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.12.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -2607,4 +2633,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.12.4,<3.13"
-content-hash = "8f97ffa80239e4c9ae87bcd38f2d59468d736edde28d7aeae69e75de35fdb5c7"
+content-hash = "85d4627774ec3d2dbc8630e4e2c1523b0f64b6d3a3f2263c727d987dd4d95938"

@@ -29,6 +29,7 @@ psycopg2-binary = "^2.9.9"
 python-jose = "^3.3.0"
 websockets = "^13.0.1"
 types-python-jose = "^3.3.4.20240106"
+pandas-stubs = "^2.2.3.241009"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
