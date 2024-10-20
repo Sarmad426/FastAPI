@@ -5,8 +5,8 @@ Music Recommender app backend
 from typing import Union
 
 from fastapi import FastAPI
-from sqlmodel import SQLModel
 from fastapi.middleware.cors import CORSMiddleware
+from sqlmodel import SQLModel
 
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
