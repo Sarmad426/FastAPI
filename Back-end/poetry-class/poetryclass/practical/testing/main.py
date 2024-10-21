@@ -4,7 +4,7 @@ API Testing
 
 from fastapi import FastAPI
 
-app = FastAPI()
+app = FastAPI(title="API testing")
 
 
 @app.get("/")
@@ -16,7 +16,7 @@ def greet():
 
 
 @app.get("/{name}")
-def greet(name: str):
+def greet_user(name: str):
     """
     Greet msg with name
     """
