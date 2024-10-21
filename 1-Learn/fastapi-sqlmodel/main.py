@@ -2,6 +2,7 @@
 FastAPI SqlModel code examples from official documentation
 """
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query, Depends
 from sqlmodel import Session, select
 
@@ -19,12 +20,17 @@ from schema import (
 )
 from db_connection import create_db_and_tables, get_session
 
-app = FastAPI()
 
-
-@app.on_event("startup")
-def on_startup():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Creates database and tables
+    """
     create_db_and_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 def hash_password(password: str) -> str:
