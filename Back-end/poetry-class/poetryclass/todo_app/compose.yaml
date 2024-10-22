@@ -1,0 +1,32 @@
+version: "3.8"
+name: helloworld
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    volumes:
+      - ./:/code # Sync local development directory with the container
+    # depends_on:
+    #   - sqlite_db
+    ports:
+      - "8000:8000" # Expose container port 8000 to host port 8000
+  # sqlite_db:
+  #   image: sqlite:latest # Use the official PostgreSQL image
+  #   restart: always
+  #   container_name: SqliteCont
+  #   environment:
+  #     - DATABASE_URL=sqlite:///todos.db
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    environment:
+      TUNNEL_URL: http://api:8000
+      command: "tunnel --no-autoupdate"
+    volumes:
+      - ./cloudflared:/etc/cloudflared
+    depends_on:
+      - api
+volumes:
+  sqlite_db:
+    driver: local
