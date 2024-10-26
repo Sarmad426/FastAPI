@@ -134,6 +134,30 @@ Open the following URLs in your browser:
 - <http://127.0.0.1:8000> to view the hello world message.
 - <http://127.0.0.1:8000/docs> to view the interactive API documentation.
 
+### Learning Roadmap
+
+- Introduction to FastAPI
+- Creating API Endpoints
+- Path and Query Parameters
+- Request and Response Models
+- Dependency Injection
+- Asynchronous Programming
+- Middleware
+- Security and Authentication
+- Handling CORS (Cross-Origin Resource Sharing)
+- Database Integration
+- WebSockets
+- Testing
+- Deployment
+- API Documentation
+- Rate Limiting and Throttling
+- Logging and Monitoring
+- Graphql Integration
+- Caching
+- API Gateway integration
+- Event driven architecture
+- Error Handling and Validation
+
 ### Other Repositories
 
 **Python**. <https://github.com/Sarmad426/Python>
