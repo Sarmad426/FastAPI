@@ -1,10 +1,10 @@
 version: "3.8"
-name: helloworld
+name: fastapi-todo-app
 services:
   api:
     build:
       context: ./
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     volumes:
       - ./:/code # Sync local development directory with the container
     ports:
@@ -14,7 +14,7 @@ services:
     image: cloudflare/cloudflared:latest
     environment:
       TUNNEL_URL: http://api:8000
-      command: "tunnel --no-autoupdate"
+    command: "tunnel --no-autoupdate"
     volumes:
       - ./cloudflared:/etc/cloudflared
     depends_on:
@@ -22,3 +22,7 @@ services:
 volumes:
   sqlite_db:
     driver: local
+networks:
+  default:
+    name: todo_app_network
+    driver: bridge
