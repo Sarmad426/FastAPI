@@ -16,10 +16,6 @@ FastAPI is particularly well-suited for AI development due to its support for as
 
 Poetry is a Python dependency management and packaging tool that simplifies project setup by managing dependencies, virtual environments, and package publishing all in one tool. It creates a `pyproject.toml` file to manage dependencies, allowing for precise version control and reducing conflicts.
 
-**Better than `Anaconda`**
-
-Unlike Anaconda, which is a broader platform for data science with a focus on managing environments and packages across various languages, Poetry is lightweight, Python-specific, and more focused on application development rather than data science workflows.
-
 ## Step 1: Install pipx
 
 - Open your terminal.
