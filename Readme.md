@@ -4,7 +4,7 @@ FastAPI is a modern, fast (high-performance) web framework for building APIs wit
 
 **What Makes FastAPI stand out:**
 
-What makes FastAPI stand out is its automatic generation of OpenAPI and JSON Schema documentation, making it easy for developers to create and maintain clear, interactive API documentation. It also offers built-in support for asynchronous programming, enabling the development of highly concurrent systems. FastAPI's focus on type hints improves code quality and editor support, while its performance is comparable to frameworks like Node.js, making it one of the fastest Python web frameworks available.
+What makes FastAPI stand out is its automatic generation of **OpenAPI** and **JSON** Schema documentation, making it easy for developers to create and maintain clear, interactive API documentation. It also offers built-in support for asynchronous programming, enabling the development of highly concurrent systems. FastAPI's focus on type hints improves code quality and editor support, while its performance is comparable to frameworks like *Node.js*, making it one of the fastest Python web frameworks available.
 
 **Suitable for AI:**
 
