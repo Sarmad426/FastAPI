@@ -41,18 +41,17 @@ function renderPostInTable(post) {
     const row = document.createElement("tr");
 
     row.innerHTML = `
-      <td>${post.id}</td>
+      
       <td title="${post.text}">${post.text}</td>
       <td>${post.image_filename ? `<img src="${API_URL}${post.image_filename}" alt="Post Image" class='post-img'>` : "No Image"}</td>
       <td>
-        <button class="action-btn update" onclick="openUpdateDialog(${post.id}, '${post.text}')">Update</button>
+        <button class="update-btn action-btn update" onclick="openUpdateDialog(${post.id}, '${post.text}')">Update</button>
         <button class="action-btn delete" onclick="openDeleteDialog(${post.id})">Delete</button>
       </td>
     `;
 
     postsTableBody.appendChild(row);
 }
-
 
 /**
  * Open the update dialog for a specific post.
@@ -62,8 +61,7 @@ function renderPostInTable(post) {
 function openUpdateDialog(postId, postText) {
     currentPostId = postId;
     updateText.value = postText;
-    updateImage.value = ""; // Clear the file input
-    updateDialog.style.display = "flex";
+    updateDialog.classList.add("active"); // Show the dialog
 }
 
 /**
@@ -71,8 +69,12 @@ function openUpdateDialog(postId, postText) {
  */
 function closeUpdateDialog() {
     currentPostId = null;
-    updateDialog.style.display = "none";
+    updateForm.reset(); // Clear the form
+    updateDialog.classList.remove("active"); // Hide the dialog
 }
+
+// Attach event listener to the cancel button inside the update dialog
+document.getElementById("cancel-update").addEventListener("click", closeUpdateDialog);
 
 /**
  * Submit the updated post.
@@ -82,10 +84,16 @@ updateForm.addEventListener("submit", async event => {
 
     if (!currentPostId) return;
 
-    const formData = new FormData(updateForm);
+    const formData = new FormData();
+    formData.append("text", updateText.value);
+
+    // Add image only if a file is selected
+    if (updateImage.files[0]) {
+        formData.append("image", updateImage.files[0]);
+    }
 
     try {
-        const response = await fetch(`${API_URL}/tweets/${currentPostId}`, {
+        const response = await fetch(`${API_URL}/tweets/${currentPostId}/`, {
             method: "PUT",
             body: formData,
         });
@@ -93,9 +101,9 @@ updateForm.addEventListener("submit", async event => {
         if (response.ok) {
             alert("Post updated successfully!");
             closeUpdateDialog();
-            loadPosts();
+            loadPosts(); // Reload posts to reflect changes
         } else {
-            alert("Failed to update the post.");
+            alert("Failed to update the post. Please try again.");
         }
     } catch (error) {
         console.error("Error updating post:", error);
@@ -108,7 +116,7 @@ updateForm.addEventListener("submit", async event => {
  */
 function openDeleteDialog(postId) {
     currentPostId = postId;
-    deleteDialog.style.display = "flex";
+    deleteDialog.classList.add("active"); // Show the dialog
 }
 
 /**
@@ -116,7 +124,7 @@ function openDeleteDialog(postId) {
  */
 function closeDeleteDialog() {
     currentPostId = null;
-    deleteDialog.style.display = "none";
+    deleteDialog.classList.remove("active"); // Hide the dialog
 }
 
 // Cancel and confirm delete actions
@@ -125,7 +133,7 @@ confirmDeleteButton.addEventListener("click", async () => {
     if (!currentPostId) return;
 
     try {
-        const response = await fetch(`${API_URL}/tweets/${currentPostId}`, {
+        const response = await fetch(`${API_URL}/tweets/${currentPostId}/`, {
             method: "DELETE",
         });
 
