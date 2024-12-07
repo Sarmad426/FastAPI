@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create a Tweet</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1 style="font-family: cursive">Post-It</h1>
+      <nav>
+        <a href="index.html">Back to Tweets</a>
+      </nav>
+    </header>
+
+    <main>
+      <form id="tweet-form">
+        <label for="text">New post:</label>
+        <textarea
+          id="text"
+          name="text"
+          placeholder="Whats new..."
+          required
+        ></textarea>
+
+        <label for="image">Upload Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" />
+
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>

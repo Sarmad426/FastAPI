@@ -1,0 +1,138 @@
+:root {
+  --primary-color: #6520e6;
+}
+
+body,
+h1,
+h2,
+p,
+a,
+button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+  color: #343a40;
+  line-height: 1.6;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 300px;
+  padding: 1rem 0;
+}
+
+header h1 {
+  font-size: 2.5rem;
+}
+
+.logo {
+  font-family: cursive;
+}
+
+nav a {
+  text-decoration: none;
+  background-color: white;
+  color: black;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  margin: 0 0.5rem;
+  transition: color 0.3s ease;
+  &:hover {
+    background-color: transparent;
+    color: white;
+    border: 1.5px solid;
+  }
+}
+
+main {
+  padding: 2rem;
+}
+
+#tweets-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#tweets {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.tweet {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 15px;
+}
+
+.tweet:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+form textarea,
+form input,
+form button {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+form button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #7235d5;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #f1f3f5;
+  color: #495057;
+}
+
+.post-img {
+  min-width: 250px;
+  max-width: 300px;
+  min-height: 200px;
+  max-height: 300px;
+  margin: 15px;
+  border-radius: 4px;
+}

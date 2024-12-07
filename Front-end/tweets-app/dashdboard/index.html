@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <h1>Admin Dashboard</h1>
+      <table id="posts-table" class="posts-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Text</th>
+            <th>Image</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Posts will be dynamically populated here -->
+        </tbody>
+      </table>
+
+      <!-- Update Dialog -->
+      <div id="update-dialog" class="dialog">
+        <div class="dialog-content">
+          <h2>Update Post</h2>
+          <form id="update-form">
+            <label for="update-text">Text</label>
+            <textarea id="update-text" name="text" rows="4" required></textarea>
+            <label for="update-image">Image (optional)</label>
+            <input
+              type="file"
+              id="update-image"
+              name="image"
+              accept="image/*"
+            />
+            <div class="dialog-actions">
+              <button type="button" id="cancel-update">Cancel</button>
+              <button type="submit">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Delete Confirmation Dialog -->
+      <div id="delete-dialog" class="dialog">
+        <div class="dialog-content">
+          <h2>Confirm Deletion</h2>
+          <p>Are you sure you want to delete this post?</p>
+          <div class="dialog-actions">
+            <button id="cancel-delete">Cancel</button>
+            <button id="confirm-delete">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

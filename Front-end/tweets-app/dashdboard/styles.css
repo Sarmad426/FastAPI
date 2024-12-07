@@ -1,0 +1,225 @@
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: #4a90e2;
+  margin: 0;
+}
+
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4a90e2;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 10px;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar a:hover {
+  color: #ffdd57;
+}
+
+/* Table Styles */
+.posts-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.posts-table th,
+.posts-table td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+}
+
+.posts-table th {
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+}
+
+.posts-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.posts-table td {
+  max-width: 200px; /* Set a max width for text cells */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Tooltip for full text on hover */
+.posts-table td:hover {
+  position: relative;
+}
+
+.posts-table td:hover::after {
+  content: attr(title); /* Display full text as tooltip */
+  position: absolute;
+  background: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  top: 100%;
+  left: 0;
+  white-space: normal; /* Allow wrapping for the tooltip */
+  z-index: 10;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Image Styles */
+.posts-table img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Actions Buttons */
+.action-btn {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease-in-out;
+}
+
+.action-btn.update {
+  background: #4caf50;
+  color: white;
+}
+
+.action-btn.update:hover {
+  background: #45a049;
+}
+
+.action-btn.delete {
+  background: #f44336;
+  color: white;
+}
+
+.action-btn.delete:hover {
+  background: #e53935;
+}
+
+/* Dialog Styles */
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  display: none;
+}
+
+.dialog.active {
+  display: block;
+}
+
+.dialog h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.dialog-buttons button {
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.dialog-buttons .confirm-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.dialog-buttons .cancel-btn {
+  background: #f44336;
+  color: white;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #888;
+}
+
+.footer a {
+  color: #4a90e2;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .posts-table td {
+    max-width: 150px;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .navbar a {
+    margin: 5px 0;
+  }
+}
+
+.post-img {
+  max-height: 120px;
+  min-width: 100px;
+  border-radius: 200px;
+}
