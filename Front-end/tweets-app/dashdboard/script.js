@@ -45,8 +45,12 @@ function renderPostInTable(post) {
       <td title="${post.text}">${post.text}</td>
       <td>${post.image_filename ? `<img src="${API_URL}${post.image_filename}" alt="Post Image" class='post-img'>` : "No Image"}</td>
       <td>
-        <button class="update-btn action-btn update" onclick="openUpdateDialog(${post.id}, '${post.text}')">Update</button>
-        <button class="action-btn delete" onclick="openDeleteDialog(${post.id})">Delete</button>
+        <button class="update-btn action-btn update"
+        style='padding:8px;'
+        onclick="openUpdateDialog(${post.id}, '${post.text}')">Update</button>
+        <button class="action-btn delete"
+        style='padding:8px;'
+        onclick="openDeleteDialog(${post.id})">Delete</button>
       </td>
     `;
 
