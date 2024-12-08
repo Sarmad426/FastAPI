@@ -50,7 +50,14 @@ body {
   margin: 0 10px;
   transition: color 0.3s ease-in-out;
 }
-
+.nav-link {
+  background-color: var(--primary-color);
+  padding: 10px;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px;
+}
 .navbar a:hover {
   color: #ffdd57;
 }
@@ -248,4 +255,21 @@ body {
   max-height: 120px;
   min-width: 100px;
   border-radius: 200px;
+}
+
+#delete-dialog {
+  button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.4s ease-in-out color;
+  }
+  button:nth-child(2) {
+    background-color: red;
+    color: white;
+    &:hover {
+      background-color: #db1f1f;
+    }
+  }
 }
