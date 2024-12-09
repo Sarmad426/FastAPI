@@ -1,9 +1,13 @@
-from fastapi import FastAPI, Depends, UploadFile, Form, HTTPException
-from fastapi.responses import FileResponse
-from sqlmodel import Session, select
+"""
+Posts app main file
+"""
+
 from typing import List, Optional
 from pathlib import Path
+from fastapi import FastAPI, Depends, UploadFile, Form, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+from sqlmodel import Session, select
 
 
 from database import create_db_and_tables, get_db
@@ -15,17 +19,15 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["*"],  # Allowing all origins (http://localhost:3000)
+    allow_credentials=True,  # Allowing credentials (cookies, HTTP Authentication) to be sent to the frontend
+    allow_methods=["*"],  # Allowing all methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allowing all headers (Authorization, Content-Type, etc.)
 )
 
 
-# Initialize the database
 create_db_and_tables()
 
-# Directory to serve images from
 UPLOAD_FOLDER = Path("uploads")
 
 
