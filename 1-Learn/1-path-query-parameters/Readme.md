@@ -28,11 +28,6 @@ And then you can also have a path `/users/{user_id}` to get data about a specifi
 Because path operations are evaluated in order, you need to make sure that the path for `/users/me` is declared before the one for `/users/{user_id}`:
 
 ```py
-from fastapi import FastAPI
-
-app = FastAPI()
-
-
 @app.get("/users/me")
 async def read_user_me():
     return {"user_id": "the current user"}
@@ -84,11 +79,7 @@ Docs: <https://fastapi.tiangolo.com/tutorial/path-params>
 When you declare other function parameters that are not part of the path parameters, they are automatically interpreted as "query" parameters.
 
 ```py
-from fastapi import FastAPI
-
-app = FastAPI()
-
-fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
+ake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
 
 @app.get("/items/")
@@ -127,11 +118,6 @@ Of course it can be overridden.
 The same way, you can declare optional query parameters, by setting their default to None:
 
 ```py
-from fastapi import FastAPI
-
-app = FastAPI()
-
-
 @app.get("/items/{item_id}")
 async def read_item(item_id: str, q: str | None = None):
     if q:
@@ -150,11 +136,6 @@ In this case, the function parameter q will be optional, and will be None by def
 You can also declare bool types, and they will be converted:
 
 ```py
-from fastapi import FastAPI
-
-app = FastAPI()
-
-
 @app.get("/items/{item_id}")
 async def read_item(item_id: str, q: str | None = None, short: bool = False):
     item = {"item_id": item_id}
@@ -194,11 +175,6 @@ or any other case variation (uppercase, first letter in uppercase, etc), your fu
 ### Multiple Path and Query parameters
 
 ```py
-from fastapi import FastAPI
-
-app = FastAPI()
-
-
 @app.get("/users/{user_id}/items/{item_id}")
 async def read_user_item(
     user_id: int, item_id: str, q: str | None = None, short: bool = False
@@ -218,11 +194,6 @@ async def read_user_item(
 If you want to make a query parameter required, just not declare any default value:
 
 ```py
-from fastapi import FastAPI
-
-app = FastAPI()
-
-
 @app.get("/items/{item_id}")
 async def read_user_item(item_id: str, needy: str):
     item = {"item_id": item_id, "needy": needy}
