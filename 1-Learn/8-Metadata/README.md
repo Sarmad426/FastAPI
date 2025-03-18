@@ -26,7 +26,7 @@ app = FastAPI(
     terms_of_service="http://example.com/terms/",
     contact={
         "name": "Sarmad Rafique",
-        "url": "http://xcom/sarmad426/",
+        "url": "https://sarmad-portfolio.vercel.app",
         "email": "sarmadrafique040@gmail.com",
     },
     license_info={
