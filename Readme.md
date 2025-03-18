@@ -22,7 +22,7 @@ Poetry is a Python dependency management and packaging tool that simplifies proj
 - Install pipx using pip:
 
 ```bash
- python -m pip install --user pipx
+python -m pip install --user pipx
 ```
 
 ## Step 2: Ensure pipx's binary directory is in your PATH
