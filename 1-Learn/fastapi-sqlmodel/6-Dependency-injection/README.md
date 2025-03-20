@@ -64,17 +64,11 @@ async def read_items(db: str = Depends(get_db)):
     return {"db_connection": db}
 ```
 
-First create a function for getting the database session.
+In the example above, the `get_db` function is a dependency that provides a database connection. The `read_items` route function depends on the `db` parameter, which is automatically injected by FastAPI.
 
-```py
-from sqlmodel import Session
+### Dependency Injection with SQLModel ORM
 
-def get_session():
-    with Session(engine) as session:
-        yield session
-```
-
-For the following docs, the password field wont be there. So remove it from your schema and models.
+**First creating the schema using SQLModel:**
 
 ```py
 class HeroBase(SQLModel):
@@ -97,12 +91,12 @@ class HeroUpdate(SQLModel):
     age: int | None = None
 ```
 
-**Using dependency injection with SQL Model ORM:**
+**Using `Depends` from `fastapi`**
 
 ```py
 # import Depends
 from fastapi import Depends, FastAPI, HTTPException, Query
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from sqlmodel import Field, Session, SQLModel, select
 
 def get_session():
     with Session(engine) as session:
