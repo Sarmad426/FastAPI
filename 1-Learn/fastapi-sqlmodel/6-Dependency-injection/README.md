@@ -46,6 +46,24 @@ Here's how it works in FastAPI:
 
 4. **Automatic Cleanup**: FastAPI handles the lifecycle of dependencies, including cleanup after request processing.
 
+**Dependency injection example:**
+
+```py
+from fastapi import Depends, FastAPI
+
+app = FastAPI()
+
+# Dependency
+def get_db():
+    db = "fake_db_connection"
+    return db
+
+# Route with dependency
+@app.get("/items/")
+async def read_items(db: str = Depends(get_db)):
+    return {"db_connection": db}
+```
+
 First create a function for getting the database session.
 
 ```py
@@ -79,7 +97,7 @@ class HeroUpdate(SQLModel):
     age: int | None = None
 ```
 
-**Using dependency injection:**
+**Using dependency injection with SQL Model ORM:**
 
 ```py
 # import Depends
