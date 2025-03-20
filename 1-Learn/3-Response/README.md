@@ -70,6 +70,17 @@ async def read_items() -> Any:
     ]
 ```
 
+## Response types
+
+Response types (import these classes from `fastapi.responses`) include the following:
+
+- JSONResponse (the default)
+- HTMLResponse
+- PlainTextResponse
+- RedirectResponse
+- FileResponse
+- StreamingResponse
+
 Docs: <https://fastapi.tiangolo.com/tutorial/response-model>
 
 ## Status Code
