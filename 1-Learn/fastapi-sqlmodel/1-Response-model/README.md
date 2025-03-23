@@ -25,10 +25,4 @@ def read_heroes():
         return heroes
 ```
 
-**Run the app:**
-
-```bash
-uvicorn main:app --reload
-```
-
 Docs: <https://sqlmodel.tiangolo.com/tutorial/fastapi/response-model/>
